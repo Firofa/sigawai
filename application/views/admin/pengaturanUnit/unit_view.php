@@ -34,8 +34,8 @@
                   <thead>
                     <tr>
                         <th scope="col">No</th>
-				      	<th scope="col">Unit Kerja</th>
-				      	<th scope="col">Kode Satuan Kerja</th>
+                        <th scope="col">Unit Kerja</th>
+                        <th scope="col">Kode Satuan Kerja</th>
                         <th scope="col">Alamat</th>
                         <th scope="col">Nomor Telepon</th>
                         <th scope="col">Ketua</th>

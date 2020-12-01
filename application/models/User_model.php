@@ -62,4 +62,10 @@ class User_model extends CI_Model {
                                     WHERE `users`.`name` = ".$name);
         return $data->row_array();
     }
+
+    public function getDataUsersNameNip()
+    {
+        $data = $this->db->query("SELECT `users`.`id_user`, `users`.`name`, `users`.`nip` FROM `users`");
+        return $data->result_array();
+    }
 }

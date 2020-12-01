@@ -45,14 +45,16 @@
         <li class="header">SALARY NAVIGATION</li>
         <li class="treeview active">
           <a href="#">
-            <i class="fa fa-table"></i> <span>Tables</span>
+            <i class="fa fa-table"></i> <span>Penghitungan Gaji</span>
             <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-            <li class="active"><a href="data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+          <?php if($user['level_access_id'] == "1") : ?>
+            <li><a href="<?= base_url('perkiraan'); ?>"><i class="fa fa-circle-o"></i>Perkiraan</a></li>
+          <?php endif; ?>
+            <li><a href="<?= base_url('gaji'); ?>"><i class="fa fa-circle-o"></i>Pengaturan Gaji</a></li>
           </ul>
         </li>
         
