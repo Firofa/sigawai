@@ -40,7 +40,7 @@
             <!-- Menu Footer-->
             <li class="user-footer">
               <div class="pull-left">
-                
+              <a href="<?= base_url('admin/changePassword'); ?>" class="btn btn-default btn-flat">Change Password</a>
               </div>
               <div class="pull-right">
                 <a href="<?= base_url('auth/logout'); ?>" class="btn btn-default btn-flat">Sign out</a>

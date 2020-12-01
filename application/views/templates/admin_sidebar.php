@@ -90,7 +90,7 @@
             <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
           </ul>
         </li>
-        <li><a href="<?= base_url('admin/changePassword'); ?>"><i class="fa fa-book"></i> <span>Change Password</span></a></li>
+        <li><a href="<?= base_url('admin/changePassword'); ?>"><i class="fa fa-lock"></i> <span>Change Password</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
