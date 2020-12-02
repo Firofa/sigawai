@@ -67,11 +67,11 @@ class Gaji extends CI_Controller {
 			$this->load->view('templates/admin_topbar',$data);
 			$this->load->view('templates/admin_sidebar',$data);
 			$this->load->view('admin/pengaturanGaji/pengaturanGaji_view',$data);
-			$this->load->view('templates/admin_footer',$data);
         } else {
             //Ambil data user
             $this->load->model('User_model','user');
             $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+            //Menggolongkan Data Penghasilan
             $penghasilan = [
                 htmlspecialchars($this->input->post('gaji_pokok'),true),
                 htmlspecialchars($this->input->post('tunjangan_is'),true),
@@ -83,7 +83,11 @@ class Gaji extends CI_Controller {
                 htmlspecialchars($this->input->post('tunjangan_beras'),true),
                 htmlspecialchars($this->input->post('tunjangan_kp'),true)
             ];
+            //Merapihkan Data Array Penghasilan
+            $penghasilan = str_replace(["Rp ",".",",00"],"",$penghasilan,$i);
+            //Menjumlahkan Penghasilan Keseluruhan
             $nilai_penghasilan = array_sum($penghasilan);
+            //Menggolongkan Data Potongan KPPN
             $potongan_kppn = [
                 htmlspecialchars($this->input->post('iwp'),true),
                 htmlspecialchars($this->input->post('iuran_bpjs'),true),
@@ -92,7 +96,11 @@ class Gaji extends CI_Controller {
                 htmlspecialchars($this->input->post('taperum'),true),
                 htmlspecialchars($this->input->post('pot_lain'),true)
             ];
+             //Merapihkan Data Array Potongan KPPN
+            $potongan_kppn = str_replace(["Rp ",".",",00"],"",$potongan_kppn,$i);
+             //Menjumlahkan Potongan KPPN Keseluruhan
             $nilai_potongan_kppn = array_sum($potongan_kppn);
+            //Menggolongkan Data Potongan Internal
             $potongan_internal = [
                 htmlspecialchars($this->input->post('iuran_ikahi'),true),
                 htmlspecialchars($this->input->post('iuran_ydsh'),true),
@@ -112,10 +120,19 @@ class Gaji extends CI_Controller {
                 htmlspecialchars($this->input->post('sumbangan_pk'),true),
                 htmlspecialchars($this->input->post('iuran_tk'),true)
             ];
+            //Merapihkan Data Array Potongan Internal
+            $potongan_internal = str_replace(["Rp ",".",",00"],"",$potongan_internal,$i);
+            //Menjumlahkan Data Potongan Internal Keseluruhan
             $nilai_potongan_internal = array_sum($potongan_internal);
+            //Kalkulasi Penghasilan Bersih
             $penghasilan_bersih = $nilai_penghasilan - $nilai_potongan_kppn;
+            //Kalkulasi Gaji Bersih
             $gaji_bersih = $penghasilan_bersih - $nilai_potongan_internal;
+            //Inisialisasi Id
+            $id_transaksi_gaji = uniqid('tgaji');
+            //Penggolongan Data Kedalam masing" Kolom
             $data_transaksi_gaji = [
+                'id_transaksi_gaji' => $id_transaksi_gaji,
                 'user_id' => htmlspecialchars($this->input->post('id_user'),true),
                 'tgl_gaji' => htmlspecialchars($this->input->post('tgl_gaji'),true),
                 'penghasilan_kotor' => $nilai_penghasilan,
@@ -125,7 +142,29 @@ class Gaji extends CI_Controller {
                 'gaji_bersih' => $gaji_bersih,
                 'user_input_id' => $data['user']['id_user']
             ];
+            //Memasukan Data Ke Database
             $this->db->insert('transaksi_gaji',$data_transaksi_gaji);
+            //Persiapan Input Rincian Gaji
+            $this->load->model('gaji_model','gaji');
+            $data['dataGaji'] = $this->gaji->getDataGajiById($id_transaksi_gaji);
+            $rincian = array_merge($penghasilan,$potongan_kppn,$potongan_internal);
+            $rincian_gaji = [];
+            for($i = 0; $i < count($rincian); $i++){
+                if($i == 9) {
+                    array_push($rincian_gaji,[
+                        'transaksi_gaji_id' => $id_transaksi_gaji,
+                        'perkiraan_id' => $i+1,
+                        'jumlah' => $nilai_penghasilan
+                    ]);
+                }
+                array_push($rincian_gaji,[
+                    'transaksi_gaji_id' => $id_transaksi_gaji,
+                    'perkiraan_id' => $i+1,
+                    'jumlah' => $rincian[$i]
+                ]);
+            }
+
+            $this->db->insert_batch('rincian_transaksi_gaji',$rincian_gaji);
 			$this->session->set_flashdata("message","<div class='alert alert-success' role='alert'>Data Transaksi Gaji berhasil dimasukkan.</div>");
 			redirect('gaji');
         }

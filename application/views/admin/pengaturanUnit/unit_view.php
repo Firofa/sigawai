@@ -30,7 +30,7 @@
                 <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newRuangan">Tambah Unit Kerja Baru</a>
             </div>
             <div class="box-body table-responsive">
-                <table id="example2" class="table table-bordered table-striped ">
+                <table id="example1" class="table table-bordered table-striped ">
                   <thead>
                     <tr>
                         <th scope="col">No</th>

@@ -21,5 +21,12 @@ class Gaji_model extends CI_Model {
     public function DeleteDataTransaksiGaji($tableName, $where) {
 		$res = $this->db->Delete($tableName,$where);
 		return $res;
-	}
+    }
+    
+    public function getDataGajiById($id_transaksi_gaji){
+        $data = $this->db->query("SELECT * 
+                                FROM `transaksi_gaji`
+                                WHERE `id_transaksi_gaji` = '".$id_transaksi_gaji."'");
+        return $data->row_array();
+    }
 }

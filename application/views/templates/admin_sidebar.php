@@ -51,9 +51,6 @@
                 </span>
           </a>
           <ul class="treeview-menu">
-          <?php if($user['level_access_id'] == "1") : ?>
-            <li><a href="<?= base_url('perkiraan'); ?>"><i class="fa fa-circle-o"></i>Perkiraan</a></li>
-          <?php endif; ?>
             <li><a href="<?= base_url('gaji'); ?>"><i class="fa fa-circle-o"></i>Pengaturan Gaji</a></li>
           </ul>
         </li>

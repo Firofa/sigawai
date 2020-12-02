@@ -29,7 +29,7 @@
                 <?= $this->session->flashdata('message'); 	 ?>
             </div>
             <div class="box-body table-responsive">
-                <table id="example2" class="table table-bordered table-striped ">
+                <table id="example1" class="table table-bordered table-striped ">
                   <thead>
                     <tr>
 				      	<th scope="col">No</th>
