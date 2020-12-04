@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Gaji Pegawai
+        Data Potongan Pegawai
       </h1>
       
     </section>
@@ -13,7 +13,7 @@
        <!-- Default box -->
        <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah Gaji Pegawai</h3>
+          <h3 class="box-title">Tambah Potongan Gaji Pegawai</h3>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                     title="Collapse">
@@ -52,14 +52,14 @@
               </div>
               </div>  
                 <div align="left" style="margin-bottom:5px;">
-                  <button type="button" name="add" id="add" class="btn btn-success">Tambah Penghasilan Pegawai</button>
+                  <button type="button" name="add" id="add" class="btn btn-success">Tambah Potongan Pegawai</button>
                     <br />
                     <br />
                     <div class="table-responsive">
                       <table class="table table-striped table-bordered" id="data_perkiraan">
                         <tr>
-                          <th>Jenis Penghasilan</th>
-                          <th>Jumlah Penghasilan</th>
+                          <th>Jenis Potongan</th>
+                          <th>Jumlah Potongan</th>
                           <th>Details</th>
                           <th>Remove</th>
                         </tr>
@@ -73,7 +73,7 @@
             
             <div id="perkiraan_dialog" title="Add Data">
                 <div class="form-group">
-                  <label>Jenis Penghasilan</label>
+                  <label>Jenis Potongan</label>
                   <select name="perkiraan_id" id="perkiraan_id" class="form-control">
                     <?php foreach($jenis_penghasilan as $jp):?>  
                     <option value="<?= $jp['id_perkiraan'];?>"><?= $jp['nama_perkiraan'] ?></option>
@@ -81,7 +81,7 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Jumlah Penghasilan</label>
+                  <label>Jumlah Potongan</label>
                   <input type="text" data-type="currency" class="form-control form-control-user" name="jumlah_penghasilan" id="jumlah_penghasilan" />
                   <span id="error_jumlah_penghasilan" class="text-danger"></span>
                 </div>
@@ -92,12 +92,12 @@
                 <div id="action_alert" title="Action">
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-              <!-- isi footer -->
-            </div>
-            <!-- /.box-footer-->
-          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          <!-- isi footer -->
+        </div>
+        <!-- /.box-footer-->
       </div>
       <!-- /.box -->
 

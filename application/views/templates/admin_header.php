@@ -30,5 +30,8 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+     <!-- CSS for multiple Form -->
+     <link rel="stylesheet" href="<?= base_url('assets/'); ?>jquery-ui/jquery-ui.css">    
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition fixed skin-blue sidebar-mini">

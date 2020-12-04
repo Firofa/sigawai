@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2020 at 10:33 PM
+-- Generation Time: Dec 04, 2020 at 02:44 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -52,7 +52,7 @@ CREATE TABLE `perkiraan` (
   `kode_perkiraan` varchar(5) NOT NULL,
   `nama_perkiraan` varchar(50) NOT NULL,
   `aktif` enum('Y','N') NOT NULL DEFAULT 'Y',
-  `status_perkiraan` enum('0','1','2') NOT NULL
+  `status_perkiraan` enum('0','1','2','3','4') NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -70,29 +70,32 @@ INSERT INTO `perkiraan` (`id_perkiraan`, `kode_perkiraan`, `nama_perkiraan`, `ak
 (8, '008', 'Tunjangan Beras', 'Y', '0'),
 (9, '009', 'Tunjangan Khusus Pajak', 'Y', '0'),
 (10, '010', 'Pembulatan', 'Y', '0'),
-(11, '101', 'IWP', 'Y', '1'),
-(14, '102', 'Iuran BPJS', 'Y', '1'),
-(15, '103', 'Potongan PPN', 'Y', '1'),
-(16, '104', 'Sewa Rumah', 'Y', '1'),
-(17, '105', 'Taperum', 'Y', '1'),
-(18, '106', 'Pot. Lain (Persekot Gaji, TGR)', 'Y', '1'),
-(19, '201', 'Iuran IKAHI', 'Y', '2'),
-(20, '202', 'Iuran YOSH', 'Y', '2'),
-(21, '203', 'Simpanan Pokok Koperasi', 'Y', '2'),
-(22, '204', 'Simpanan Wajib Koperasi', 'Y', '2'),
-(23, '205', 'Simpanan Sukarela Koperasi', 'Y', '2'),
-(24, '206', 'Angsuran Pinjaman Koperasi', 'Y', '2'),
-(25, '207', 'Iuran Dharma Yukti', 'Y', '2'),
-(26, '208', 'Iuran PTWP', 'Y', '2'),
-(27, '209', 'Iuran Olah Raga', 'Y', '2'),
-(28, '210', 'Donasi Dharmayukti Kartini', 'Y', '2'),
-(29, '211', 'Iuran Muslim', 'Y', '2'),
-(30, '212', 'Arisan Cabang Dharmayukti', 'Y', '2'),
-(31, '213', 'Iuran IPASPI', 'Y', '2'),
-(32, '214', 'Potongan Lain/Arisan DYK Daerah', 'Y', '2'),
-(33, '215', 'Sumbangan Sosial', 'Y', '2'),
-(34, '216', 'Sumbangan Persekutuan Kristiani', 'Y', '2'),
-(35, '217', 'Iuran untuk Tenaga Kebersihan', 'Y', '2');
+(11, '301', 'Uang Lauk Pauk', 'Y', '3'),
+(12, '401', 'Tunjangan Kinerja', 'Y', '4'),
+(13, '402', 'Honor Lainnya', 'Y', '4'),
+(14, '101', 'IWP', 'Y', '1'),
+(15, '102', 'Iuran BPJS', 'Y', '1'),
+(16, '103', 'Potongan PPH', 'Y', '1'),
+(17, '104', 'Sewa Rumah', 'Y', '1'),
+(18, '105', 'Taperum', 'Y', '1'),
+(19, '106', 'Pot. Lain (Persekot Gaji, TGR)', 'Y', '1'),
+(20, '201', 'Iuran IKAHI', 'Y', '2'),
+(21, '202', 'Iuran YDSH', 'Y', '2'),
+(22, '203', 'Simpanan Pokok Koperasi', 'Y', '2'),
+(23, '204', 'Simpanan Wajib Koperasi', 'Y', '2'),
+(24, '205', 'Simpanan Sukarela Koperasi', 'Y', '2'),
+(25, '206', 'Angsuran Pinjaman Koperasi', 'Y', '2'),
+(26, '207', 'Iuran Dharma Yukti', 'Y', '2'),
+(27, '208', 'Iuran PTWP', 'Y', '2'),
+(28, '209', 'Iuran Olah Raga', 'Y', '2'),
+(29, '210', 'Donasi Dharmayukti Kartini', 'Y', '2'),
+(30, '211', 'Iuran Muslim', 'Y', '2'),
+(31, '212', 'Arisan Cabang Dharmayukti', 'Y', '2'),
+(32, '213', 'Iuran IPASPI', 'Y', '2'),
+(33, '214', 'Potongan Lain/Arisan DYK Daerah', 'Y', '2'),
+(34, '215', 'Sumbangan Sosial', 'Y', '2'),
+(35, '216', 'Sumbangan Persekutuan Kristiani', 'Y', '2'),
+(36, '217', 'Iuran untuk Tenaga Kebersihan', 'Y', '2');
 
 -- --------------------------------------------------------
 
@@ -102,9 +105,11 @@ INSERT INTO `perkiraan` (`id_perkiraan`, `kode_perkiraan`, `nama_perkiraan`, `ak
 
 CREATE TABLE `rincian_transaksi_gaji` (
   `id_rtg` int(11) NOT NULL,
-  `transaksi_gaji_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `tgl_gaji` int(11) NOT NULL,
   `perkiraan_id` int(11) NOT NULL,
-  `jumlah` int(11) DEFAULT NULL
+  `jumlah` int(128) DEFAULT NULL,
+  `created_at` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -134,27 +139,16 @@ INSERT INTO `ruangan` (`id_ruangan`, `ruangan`) VALUES
 --
 
 CREATE TABLE `transaksi_gaji` (
-  `id_transaksi_gaji` int(11) NOT NULL,
+  `id_transaksi_gaji` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `tgl_gaji` date NOT NULL,
+  `tgl_gajian` int(11) NOT NULL,
   `penghasilan_kotor` int(11) NOT NULL,
   `potongan_kppn` int(11) NOT NULL,
   `penghasilan_bersih` int(11) NOT NULL,
   `potongan_internal` int(11) NOT NULL,
   `gaji_bersih` int(11) NOT NULL,
-  `waktu_input` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `user_input_id` int(11) NOT NULL
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `transaksi_gaji`
---
-
-INSERT INTO `transaksi_gaji` (`id_transaksi_gaji`, `user_id`, `tgl_gaji`, `penghasilan_kotor`, `potongan_kppn`, `penghasilan_bersih`, `potongan_internal`, `gaji_bersih`, `waktu_input`, `user_input_id`) VALUES
-(2, 1, '0000-00-00', 11920000, 332000, 11588000, 240000, 11348000, '2020-12-01 21:28:04', 1),
-(1, 1, '2020-12-01', 1000000, 100000, 900000, 100000, 800000, '2020-12-01 17:58:05', 1),
-(3, 1, '2020-12-01', 16150000, 2600000, 13550000, 3420000, 10130000, '2020-12-01 21:28:20', 1),
-(4, 3, '2021-01-01', 7225000, 1110000, 6115000, 5475000, 640000, '2020-12-01 21:31:21', 1);
 
 -- --------------------------------------------------------
 
@@ -189,8 +183,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `name`, `password`, `level_access_id`, `nip`, `tempat_lahir`, `tanggal_lahir`, `no_rek`, `npwp`, `golongan`, `jabatan`, `pangkat`, `tahun`, `is_active`, `ruangan_id`, `work_unit_id`, `created_at`, `updated_at`) VALUES
 (1, 'Alex Sulaiman', '$2y$10$YT1922R2ohQk5szik2AbXOy0sNLSitVsvjJg3CaTXeyhfM/4A5QNW', 1, '1010', 'Banjarmasin', '2012-12-12', '1010202040', '1020304050', '3B', 'Junior Staff', 'Eselon 1', 2020, 1, 2, 2, 1606792825, 1606811801),
-(2, 'Entis Sutisna', '$2y$10$dscJEgQmrSq79yzvVvjPpeJKHoSMGf0hbdI0mDcTsBA35sEkZq27y', 2, '1020', 'Laracast', '2001-05-21', '98765432112', '12378234401', '3B', 'admin', 'admin', 2020, 1, 1, 1, 1606838991, 1606839091),
-(3, 'Kabayan Surya', '$2y$10$3CdZTNUngWzPljtPLvACqOIkUcU1WSyprbjLafDUE/aRdcKNSsWX6', 3, '1030', 'Pamanukan', '1999-09-19', '123987456234', '231852578273', '3B', 'Kepala Bagian', 'Eselon 1', 2020, 1, 1, 1, 1606839075, 0);
+(3, 'Kabayan Surya', '$2y$10$3CdZTNUngWzPljtPLvACqOIkUcU1WSyprbjLafDUE/aRdcKNSsWX6', 3, '1030', 'Pamanukan', '1999-09-19', '123987456234', '231852578273', '3B', 'Kepala Bagian', 'Eselon 1', 2020, 1, 1, 1, 1606839075, 0),
+(4, 'Makmur Subur', '$2y$10$KplDhQgEE8p2T.FmviTRleFn9AUqRjJWue.cDbAlFmd/W.oD.m02e', 2, '1020', 'Sabang', '2012-12-12', '98765432112', '12378234401', '3B', 'Kepala Bagian', 'admin', 2020, 1, 2, 2, 1606976770, 0);
 
 -- --------------------------------------------------------
 
@@ -283,13 +277,13 @@ ALTER TABLE `level_access`
 -- AUTO_INCREMENT for table `perkiraan`
 --
 ALTER TABLE `perkiraan`
-  MODIFY `id_perkiraan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id_perkiraan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `rincian_transaksi_gaji`
 --
 ALTER TABLE `rincian_transaksi_gaji`
-  MODIFY `id_rtg` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `id_rtg` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ruangan`
@@ -298,16 +292,10 @@ ALTER TABLE `ruangan`
   MODIFY `id_ruangan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `transaksi_gaji`
---
-ALTER TABLE `transaksi_gaji`
-  MODIFY `id_transaksi_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `work_unit`
