@@ -34,12 +34,12 @@ class Gaji extends CI_Controller {
    
 
     public function tambahGaji(){
-        $a = $this->input->post('hidden_perkiraan_id');
+        $a = $this->input->post();
         var_dump($a);die;
 		for($count = 0; $count<count($a); $count++) {
 			$data = array(
 				'user_id' => $this->input->post('id_user'),
-				'tgl_gaji' => strtotime($this->input->post('tgl_gaji')),
+				'tgl_gaji' => $this->input->post('tgl_gaji'),
 				'perkiraan_id' => $a[$count],
 				'periode_permintaan' => $this->input->post('periode_permintaan'),
 				'jumlah' => str_replace(["Rp ",".",",00"],"",$_POST['hidden_jumlah_penghasilan'][$count]),

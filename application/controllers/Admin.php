@@ -18,7 +18,7 @@ class Admin extends CI_Controller {
 
 	public function index()
 	{
-		$data['title'] = "Admin Page | SIPERMA";
+		$data['title'] = "Admin Page | Sigawai";
 		//Ambil data user
 		$this->load->model('User_model','user');
 		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -51,7 +51,7 @@ class Admin extends CI_Controller {
 		$this->form_validation->set_rules("npwp","NPWP","required|trim");
 
 		if($this->form_validation->run() == false) {
-		$data['title'] = "Admin Page | SIPERMA";
+		$data['title'] = "Admin Page | Sigawai";
 		//Ambil data user
 		$this->load->model('User_model','user');
 		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -112,7 +112,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function editDataUser($id_user) {
-		$data['title'] = "Admin Page | SIPERMA";
+		$data['title'] = "Admin Page | Sigawai";
 		//Ambil data user login
 		$this->load->model('User_model','user');
 		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -186,7 +186,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function pengaturanHakAkses() {
-		$data['title'] = "Admin Page | SIPERMA";
+		$data['title'] = "Admin Page | Sigawai";
 		//Ambil data user
 		$this->load->model('User_model','user');
 		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -201,7 +201,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function editHakAkses($id_user) {
-		$data['title'] = "Admin Page | SIPERMA";
+		$data['title'] = "Admin Page | Sigawai";
 		//Ambil data user login
 		$this->load->model('User_model','user');
 		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));
