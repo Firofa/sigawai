@@ -65,7 +65,8 @@ class Gaji extends CI_Controller {
                         'tgl_gaji' => $tgl_gaji,
                         'perkiraan_id' => $perkiraan_id[$count],
                         'jumlah' => str_replace(["Rp ",".",",00"],"",$jumlah_penghasilan[$count]),
-                        'created_at' => time()
+                        'created_at' => time(),
+                        'updated_at' => time()
                     );
                 } else {
                     $data = array(
@@ -74,7 +75,8 @@ class Gaji extends CI_Controller {
                         'tgl_gaji'  => $tgl_gaji,
                         'perkiraan_id' => $perkiraan_id[$count],
                         'jumlah' => str_replace(["Rp ",".",",00"],"",$jumlah_penghasilan[$count]),
-                        'created_at' => time()
+                        'created_at' => time(),
+                        'updated_at' => time()
                     );
                 }
                 $penghasilan_kotor = $penghasilan_kotor + str_replace(["Rp ",".",",00"],"",$jumlah_penghasilan[$count]);
@@ -106,7 +108,8 @@ class Gaji extends CI_Controller {
                 'penghasilan_kotor' => $penghasilan_kotor,
                 'penghasilan_bersih' => $penghasilan_kotor,
                 'gaji_bersih' => $penghasilan_kotor,
-                'created_at' => time()
+                'created_at' => time(),
+                'updated_at' => time()
             ];
             $this->db->insert('transaksi_gaji',$transaksi_gaji);
         } else {
@@ -125,6 +128,21 @@ class Gaji extends CI_Controller {
             $this->gaji->UpdateDataTransaksiGaji('transaksi_gaji',$transaksi_gaji,$where);
         }
         
+    }
+
+    public function referensi() {
+        $data['title'] = "Admin Page | SIPERMA";
+        //Ambil data user
+        $this->load->model('User_model','user');
+        $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+        //Mengambil data perkiraan
+        $this->load->model('gaji_model','gaji');
+        $data['dataGaji'] = $this->gaji->GetDataTransaksiByStatus(0);
+        $this->load->view('templates/admin_header',$data);
+        $this->load->view('templates/admin_topbar',$data);
+        $this->load->view('templates/admin_sidebar',$data);
+        $this->load->view('admin/pengaturanGaji/referensiGaji_view',$data);
+        $this->load->view('templates/admin_footer',$data);
     }
 
 }

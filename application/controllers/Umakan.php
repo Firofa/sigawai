@@ -125,6 +125,21 @@ class Umakan extends CI_Controller {
         
     }
 
+    public function referensi() {
+        $data['title'] = "Admin Page | SIPERMA";
+        //Ambil data user
+        $this->load->model('User_model','user');
+        $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+        //Mengambil data perkiraan
+        $this->load->model('gaji_model','gaji');
+        $data['dataUangMakan'] = $this->gaji->GetDataTransaksiByStatus(3);
+        $this->load->view('templates/admin_header',$data);
+        $this->load->view('templates/admin_topbar',$data);
+        $this->load->view('templates/admin_sidebar',$data);
+        $this->load->view('admin/pengaturanUmakan/referensiUmakan_view',$data);
+        $this->load->view('templates/admin_footer',$data);
+    }
+
 
 
 }

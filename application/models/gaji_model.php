@@ -88,4 +88,16 @@ class Gaji_model extends CI_Model {
                                 AND YEAR(`rincian_transaksi_gaji`.`tgl_gaji`) = "'.$tahun.'"
                                 ');
     }
+
+    public function GetDataTransaksiByStatus($status_perkiraan) {
+        $data = $this->db->query('SELECT `rincian_transaksi_gaji`.*, `perkiraan`.*, `users`.`name`, `users`.`nip` 
+                                FROM `rincian_transaksi_gaji` 
+                                JOIN `perkiraan` 
+                                ON `rincian_transaksi_gaji`.`perkiraan_id` = `perkiraan`.`id_perkiraan`
+                                JOIN `users`
+                                ON `rincian_transaksi_gaji`.`user_id` = `users`.`id_user`
+                                WHERE `perkiraan`.`status_perkiraan` = "'.$status_perkiraan.'"
+                                ');
+        return $data->result_array();
+    }
 }

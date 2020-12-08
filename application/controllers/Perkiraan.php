@@ -63,13 +63,11 @@ class Perkiraan extends CI_Controller {
         $kode_perkiraan = $_POST['kode_perkiraan'];
         $nama_perkiraan = $_POST['nama_perkiraan'];
         $aktif = $_POST['aktif'];
-        $status_perkiraan = $_POST['status_perkiraan'];
         $data = [
 			'id_perkiraan' => $id_perkiraan,
             'kode_perkiraan' => $kode_perkiraan,
             'nama_perkiraan' => $nama_perkiraan,
-            'aktif' => $aktif,
-            'status_perkiraan' => $status_perkiraan
+            'aktif' => $aktif
         ];
         $where = ['id_perkiraan' => $id_perkiraan];
         $this->load->model('perkiraan_model','perkiraan');

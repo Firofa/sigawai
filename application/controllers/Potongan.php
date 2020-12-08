@@ -234,4 +234,34 @@ class Potongan extends CI_Controller {
         }
         
     }
+
+    public function referensiPotonganInternal() {
+        $data['title'] = "Admin Page | SIPERMA";
+        //Ambil data user
+        $this->load->model('User_model','user');
+        $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+        //Mengambil data perkiraan
+        $this->load->model('gaji_model','gaji');
+        $data['dataPotonganInternal'] = $this->gaji->GetDataTransaksiByStatus(2);
+        $this->load->view('templates/admin_header',$data);
+        $this->load->view('templates/admin_topbar',$data);
+        $this->load->view('templates/admin_sidebar',$data);
+        $this->load->view('admin/pengaturanPotongan/referensiPotonganInternal_view',$data);
+        $this->load->view('templates/admin_footer',$data);
+    }
+
+    public function referensiPotonganKppn() {
+        $data['title'] = "Admin Page | SIPERMA";
+        //Ambil data user
+        $this->load->model('User_model','user');
+        $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+        //Mengambil data perkiraan
+        $this->load->model('gaji_model','gaji');
+        $data['dataPotonganKppn'] = $this->gaji->GetDataTransaksiByStatus(1);
+        $this->load->view('templates/admin_header',$data);
+        $this->load->view('templates/admin_topbar',$data);
+        $this->load->view('templates/admin_sidebar',$data);
+        $this->load->view('admin/pengaturanPotongan/referensiPotonganKppn_view',$data);
+        $this->load->view('templates/admin_footer',$data);
+    }
 }

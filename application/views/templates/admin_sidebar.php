@@ -63,6 +63,29 @@
                 </li>
           </ul>
         </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-table"></i> <span>Referensi Perhitungan</span>
+            <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+          </a>
+          <ul class="treeview-menu">
+                <li><a href="<?= base_url('Gaji/referensi'); ?>"><i class="fa fa-circle-o"></i>Referensi Gaji</a></li>
+                <li><a href="<?= base_url('UMakan/referensi'); ?>"><i class="fa fa-circle-o"></i>Referensi Uang Makan</a></li>
+                <li><a href="<?= base_url('Remunerasi/referensi'); ?>"><i class="fa fa-circle-o"></i>Referensi Remunerasi</a></li>
+                <li class="treeview menu-open" style="height:auto;">
+                  <a href="#"><i class="fa fa-circle-o"></i>Referensi Potongan
+                  <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span></a>
+                  <ul class="treeview-menu" style="display:block;">
+                      <li><a href="<?= base_url('Potongan/referensiPotonganKppn'); ?>"><i class="fa fa-circle-o"></i>Potongan KPPN</a></li>
+                      <li><a href="<?= base_url('Potongan/referensiPotonganInternal'); ?>"><i class="fa fa-circle-o"></i>Potongan Internal</a></li>
+                  </ul>
+                </li>
+          </ul>
+        </li>
         <li><a href="<?= base_url('admin/changePassword'); ?>"><i class="fa fa-lock"></i> <span>Change Password</span></a></li>
       </ul>
     </section>
