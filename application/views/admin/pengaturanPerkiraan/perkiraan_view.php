@@ -37,8 +37,8 @@
 				      	<th>Kode Perkiraan</th>
 				      	<th>Nama Perkiraan</th>
 				      	<th>Aktif</th>
-                        <th>Status Perkiraan</th>
-                        <th>Action</th>
+                <th>Status Perkiraan</th>
+                <th>Action</th>
 				    </tr>
                   </thead>
                   <tbody>
@@ -54,7 +54,7 @@
                             if($pe['status_perkiraan'] == 0) {
                               echo "Penghasilan";
                             } else if($pe['status_perkiraan'] == 1) {
-                              echo "Potongan KKN";
+                              echo "Potongan KPPN";
                             } else if($pe['status_perkiraan'] == 2) {
                               echo "Potongan Internal";
                             } else if($pe['status_perkiraan'] == 3) {

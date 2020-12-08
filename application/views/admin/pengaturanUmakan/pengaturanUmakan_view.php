@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Uang Makan Pegawai
+        Uang Makan Pegawai
       </h1>
       
     </section>
@@ -29,7 +29,7 @@
                 <?= $this->session->flashdata('message'); 	 ?>
         </div>
         <div class="box-body">
-          <div class="row">
+          
           <form method="post" id="perkiraan_form" action="<?= base_url('gaji/tambahGaji'); ?>">
               <div class="col-xs-6">
                 <div class="form-group ">
@@ -45,18 +45,20 @@
               </div>
               <div class="col-xs-6">  
                 <div class="form-group ">
-                  <label for="tgl_gaji">Tanggal Uang Makan:</label>
+                  <label for="tgl_gaji">Tanggal Gajian:</label>
                   <input type="date" class="form-control form-control-user" id="tgl_gaji" name="tgl_gaji" placeholder="Masukan Tanggal Gajian..." value="<?= set_value('tgl_gaji'); ?>">
                     <span id="error_tgl_gaji" class="text-danger"></span>
                 </div>
               </div>
-              </div>  
-                <div align="left" style="margin-bottom:5px;">
-                  <button type="button" name="add" id="add" class="btn btn-success">Tambah Potongan Uang Makan</button>
+
+              <div align="left" style="margin-bottom:5px;">
+                  <button type="button" name="add" id="add" class="btn btn-success">Tambah Uang Makan Pegawai</button>
+              </div>
+                    
                     <br />
                     <br />
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered" id="data_perkiraan">
+                      <table class="table table-striped table-bordered" id="data_perkiraan" >
                         <tr>
                           <th>Jenis Uang Makan</th>
                           <th>Jumlah Uang Makan</th>
@@ -66,59 +68,57 @@
                       </table>
                     </div>
                   <div align="center">
-                      <input type="submit" name="insert" id="insert" class="btn btn-primary" value="Save Penghasilan" />
+                      <button type="submit" name="insert" id="insert" class="btn btn-primary">Tambah Uang Makan</button>
                   </div>
-                </div>
             </form>
-            
-            <div id="perkiraan_dialog" title="Add Data">
+              <div id="perkiraan_dialog" title="Add Data">
                 <div class="form-group">
                   <label>Jenis Uang Makan</label>
                   <select name="perkiraan_id" id="perkiraan_id" class="form-control">
-                    <?php foreach($jenis_penghasilan as $jp):?>  
+                    <?php foreach($jenis_uang_makan as $jp):?>  
                     <option value="<?= $jp['id_perkiraan'];?>"><?= $jp['nama_perkiraan'] ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
                 <div class="form-group">
                   <label>Jumlah Uang Makan</label>
-                  <input type="text" data-type="currency" class="form-control form-control-user" name="jumlah_penghasilan" id="jumlah_penghasilan" />
-                  <span id="error_jumlah_penghasilan" class="text-danger"></span>
+                  <input type="text" data-type="currency" class="form-control form-control-user" id="jumlah_uang_makan" name="jumlah_uang_makan"  />
+                  <span id="error_jumlah_uang_makan" class="text-danger"></span>
                 </div>
                 <div class="form-group" align="center">
                   <input type="hidden" name="row_id" id="hidden_row_id" />
-                  <button type="button" name="save" id="save" class="btn btn-info">Save</button>
+                  <button type="button" id="save" name="save" class="btn btn-info">Save</button>
                 </div>
-                <div id="action_alert" title="Action">
-                </div>
+                <div id="action_alert" title="Action"></div>
+              </div>
+        </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+              <!-- isi footer -->
             </div>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          <!-- isi footer -->
-        </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
+            <!-- /.box-footer-->
+          </div>
+          <!-- /.box -->
 
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Tabel Data Gaji Pegawai</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+          <!-- Default box -->
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Tabel Data Gaji Pegawai</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
               title="Collapse">
               <i class="fa fa-minus"></i></button>
-              </div>
             </div>
-            
+          </div>
+          
+          <div class="box-body">
+            <?php  if(validation_errors()) : ?>
+              <div class="alert alert-danger" role="alert"><?= validation_errors(); ?></div>
+              <?php  endif; ?>
+              <?= $this->session->flashdata('message'); 	 ?>
+            </div>
             <div class="box-body">
-              <?php  if(validation_errors()) : ?>
-                <div class="alert alert-danger" role="alert"><?= validation_errors(); ?></div>
-                <?php  endif; ?>
-                <?= $this->session->flashdata('message'); 	 ?>
-            </div>
-            <div class="box-body table-responsive">
+              <div class="table-responsive">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -132,7 +132,7 @@
                       <th>Potongan Internal</th>
                       <th>Gaji Bersih</th>
                       <th>Action</th>
-				            </tr>
+                    </tr>
                   </thead>
                   <tbody>
                     <?php 	$i = 1; ?>  
@@ -141,22 +141,23 @@
                         <td><?= $i;?></td>
                         <td><?= $gj['name'];?></td>
                         <td><?= $gj['nip'];?></td>
-                        <td><?= $gj['tgl_gaji'];?></td>
+                        <td><?= $gj['tgl_gajian'];?></td>
                         <td><?= 'Rp.'.number_format($gj['penghasilan_kotor'],2,',','.');?></td>
                         <td><?= 'Rp.'.number_format($gj['potongan_kppn'],2,',','.');?></td>
                         <td><?= 'Rp.'.number_format($gj['penghasilan_bersih'],2,',','.');?></td>
                         <td><?= 'Rp.'.number_format($gj['potongan_internal'],2,',','.');?></td>
                         <td><?= 'Rp.'.number_format($gj['gaji_bersih'],2,',','.');?></td>
-                        <td>
-                             <a href="<?= ('Gaji/editDataTransaksiGaji/').$gj['id_transaksi_gaji'];?>" class="badge badge-success">Edit</a>
-                            
-                        </td>
-                      </tr>
-                        <?php $i++; ?>
-                      <?php endforeach; ?>
-                  </tbody>
-                </table>
+                    <td>
+                          <a href="#" class="badge badge-success">Edit</a>
+                        
+                    </td>
+                  </tr>
+                    <?php $i++; ?>
+                  <?php endforeach; ?>
+              </tbody>
+            </table>
         </div>
+      </div>
         <!-- /.box-body -->
         <div class="box-footer">
           <!-- isi footer -->
@@ -169,7 +170,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
+  
 
 <!-- /.content-wrapper -->
 <footer class="main-footer">
@@ -216,12 +217,12 @@
 <script src="<?= base_url('assets/'); ?>dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('assets/'); ?>dist/js/demo.js"></script>
-<!-- Script Tambah Penghasilan -->
+<!-- Script Tambah uang_makan -->
 <!-- Multiple Forms script -->
 <script src="<?= base_url('assets/');?>jquery-ui/jquery-ui.js"></script>
-<script src="<?= base_url('assets/');?>js/penghasilanPegawai.js"></script>
-<!-- page script -->
+<script src="<?= base_url('assets/');?>js/UangMakanPegawai.js"></script>
 <script>
+
   $(function () {
     $('#example1').DataTable()
     $('#example2').DataTable({
@@ -317,6 +318,9 @@ function formatCurrency(input, blur) {
   input[0].setSelectionRange(caret_pos, caret_pos);
 }
 
+
+
+ 
 
 </script>
 

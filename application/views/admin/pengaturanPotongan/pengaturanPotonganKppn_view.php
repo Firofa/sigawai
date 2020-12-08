@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Remunerasi Pegawai
+        Potongan KPPN Pegawai
       </h1>
       
     </section>
@@ -13,7 +13,7 @@
        <!-- Default box -->
        <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Tambah Remunerasi Pegawai</h3>
+          <h3 class="box-title">Tambah Potongan KPPN Pegawai</h3>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                     title="Collapse">
@@ -30,7 +30,7 @@
         </div>
         <div class="box-body">
           
-          <form method="post" id="perkiraan_form" action="<?= base_url('gaji/tambahGaji'); ?>">
+          <form method="post" id="perkiraan_form" action="<?= base_url('potongan/tambahGaji'); ?>">
               <div class="col-xs-6">
                 <div class="form-group ">
                   <label for="id_user">Pilih Pegawai:</label>
@@ -52,7 +52,7 @@
               </div>
 
               <div align="left" style="margin-bottom:5px;">
-                  <button type="button" name="add" id="add" class="btn btn-success">Tambah Remunerasi Pegawai</button>
+                  <button type="button" name="add" id="add" class="btn btn-success">Tambah Potongan KPPN Pegawai</button>
               </div>
                     
                     <br />
@@ -60,30 +60,30 @@
                     <div class="table-responsive">
                       <table class="table table-striped table-bordered" id="data_perkiraan" >
                         <tr>
-                          <th>Jenis Remunerasi</th>
-                          <th>Jumlah Remunerasi</th>
+                          <th>Jenis Potongan KPPN</th>
+                          <th>Jumlah Potongan KPPN</th>
                           <th>Details</th>
                           <th>Remove</th>
                         </tr>
                       </table>
                     </div>
                   <div align="center">
-                      <button type="submit" name="insert" id="insert" class="btn btn-primary">Tambah Remunerasi</button>
+                      <button type="submit" name="insert" id="insert" class="btn btn-primary">Tambah Potongan KPPN</button>
                   </div>
             </form>
               <div id="perkiraan_dialog" title="Add Data">
                 <div class="form-group">
-                  <label>Jenis Remunerasi</label>
+                  <label>Jenis Potongan KPPN</label>
                   <select name="perkiraan_id" id="perkiraan_id" class="form-control">
-                    <?php foreach($jenis_remunerasi as $jp):?>  
+                    <?php foreach($jenis_potongan_kppn as $jp):?>  
                     <option value="<?= $jp['id_perkiraan'];?>"><?= $jp['nama_perkiraan'] ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Jumlah Remunerasi</label>
-                  <input type="text" data-type="currency" class="form-control form-control-user" id="jumlah_remunerasi" name="jumlah_remunerasi"  />
-                  <span id="error_jumlah_remunerasi" class="text-danger"></span>
+                  <label>Jumlah Potongan KPPN</label>
+                  <input type="text" data-type="currency" class="form-control form-control-user" id="jumlah_potongan_kppn" name="jumlah_potongan_kppn"  />
+                  <span id="error_jumlah_potongan_kppn" class="text-danger"></span>
                 </div>
                 <div class="form-group" align="center">
                   <input type="hidden" name="row_id" id="hidden_row_id" />
@@ -217,10 +217,10 @@
 <script src="<?= base_url('assets/'); ?>dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('assets/'); ?>dist/js/demo.js"></script>
-<!-- Script Tambah remunerasi -->
+<!-- Script Tambah potongan_kppn -->
 <!-- Multiple Forms script -->
 <script src="<?= base_url('assets/');?>jquery-ui/jquery-ui.js"></script>
-<script src="<?= base_url('assets/');?>js/RemunerasiPegawai.js"></script>
+<script src="<?= base_url('assets/');?>js/PotonganKppnPegawai.js"></script>
 <script>
 
   $(function () {
@@ -320,6 +320,7 @@ function formatCurrency(input, blur) {
 
 
  
+   
 
 </script>
 

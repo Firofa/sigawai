@@ -40,7 +40,7 @@
         </li>
       
         <li class="header">NAVIGATION</li>
-        <li class="treeview active">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-table"></i> <span>Rekapitulasi</span>
             <span class="pull-right-container">
@@ -51,7 +51,16 @@
                 <li><a href="<?= base_url('Gaji'); ?>"><i class="fa fa-circle-o"></i>Gaji</a></li>
                 <li><a href="<?= base_url('UMakan'); ?>"><i class="fa fa-circle-o"></i>Uang Makan</a></li>
                 <li><a href="<?= base_url('Remunerasi'); ?>"><i class="fa fa-circle-o"></i>Remunerasi</a></li>
-                <li><a href="<?= base_url('Potongan'); ?>"><i class="fa fa-circle-o"></i>Potongan</a></li>
+                <li class="treeview menu-open" style="height:auto;">
+                  <a href="#"><i class="fa fa-circle-o"></i>Potongan
+                  <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span></a>
+                  <ul class="treeview-menu" style="display:block;">
+                      <li><a href="<?= base_url('Potongan'); ?>"><i class="fa fa-circle-o"></i>Potongan KPPN</a></li>
+                      <li><a href="<?= base_url('Potongan/potInternal'); ?>"><i class="fa fa-circle-o"></i>Potongan Internal</a></li>
+                  </ul>
+                </li>
           </ul>
         </li>
         <li><a href="<?= base_url('admin/changePassword'); ?>"><i class="fa fa-lock"></i> <span>Change Password</span></a></li>

@@ -50,14 +50,8 @@
                 </div>
                 <div class="form-group ">
                     <label>Status Perkiraan:</label>
-                    <select name="status_perkiraan" class="form-control">
-                        <option disabled>Pilih Status Perkiraan:</option>
-                        <option value="<?= $perkiraan['status_perkiraan'];?>">Data Saat ini: <?php echo $perkiraan['status_perkiraan'] == 0 ? "Penghasilan" : ($perkiraan['status_perkiraan'] == 1 ? "Potongan KKN" : "Potongan Internal"); ?></option>
-                        <option value="0"><?= "Penghasilan" ?></option>
-                        <option value="1"><?= "Potongan KKN" ?></option>
-                        <option value="2"><?= "Potongan Internal" ?></option>
-                        <option value="3"><?= "Uang Makan" ?></option>
-                        <option value="4"><?= "Remunerasi" ?></option>
+                    <select name="status_perkiraan" class="form-control" disabled>
+                        <option value="<?= $perkiraan['status_perkiraan'];?>"><?php echo $perkiraan['status_perkiraan'] == 0 ? "Penghasilan" : ($perkiraan['status_perkiraan'] == 1 ? "Potongan KPPN" : "Potongan Internal"); ?></option>
                     </select>
                     <?= form_error('status_perkiraan','<small class="text-danger pl-3">','</small>'); ?>  
                 </div>
