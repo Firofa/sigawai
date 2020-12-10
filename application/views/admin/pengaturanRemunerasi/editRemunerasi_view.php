@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Edit Data Penghasilan
+        Edit Data Remunerasi
       </h1>      
     </section>
 
@@ -12,7 +12,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Form Edit Data Penghasilan</h3>
+          <h3 class="box-title">Form Edit Data Remunerasi</h3>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                     title="Collapse">
@@ -21,7 +21,7 @@
         </div>
         <div class="box-body">
         <?= $this->session->flashdata('message'); ?>
-            <?= form_open_multipart('Gaji/doEditPenghasilan/'); ?>
+            <?= form_open_multipart('Remunerasi/doEditRemunerasi/'); ?>
                 <div class="form-group">
                     <input type="hidden" class="form-control form-control-user" id="id_rtg" name="id_rtg" value="<?= $editData['id_rtg'];?>" READONLY>
                     <?= form_error('id_rtg','<small class="text-danger pl-3">','</small>'); ?> 
@@ -29,12 +29,12 @@
                     <h4>NIP : <?= $editData['nip']; ?></h4>
                 </div>
                 <div class="form-group">
-                    <h4>Jenis Penghasilan : <?= $editData['nama_perkiraan']; ?></h4>
+                    <h4>Jenis Remunerasi : <?= $editData['nama_perkiraan']; ?></h4>
                 </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-2">
-                                <label><h4>Jumlah Penghasilan:</h4></label>
+                                <label><h4>Jumlah Remunerasi: </h4></label>
                             </div>
                             <div class="col-sm-4">
                                 <input type="text" data-type="currency" class="form-control form-control-user" id="jumlah" name="jumlah" value="<?= 'Rp '.number_format($editData['jumlah'],2,',','.');?>" placeholder="Masukan Jumlah Penghasilan..." value="<?= set_value('Rp.'.number_format($editData['jumlah'],2,',','.')); ?>">

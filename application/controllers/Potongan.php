@@ -264,4 +264,139 @@ class Potongan extends CI_Controller {
         $this->load->view('admin/pengaturanPotongan/referensiPotonganKppn_view',$data);
         $this->load->view('templates/admin_footer',$data);
     }
+
+    public function editPotonganKppn($id_rtg){
+        $data['title'] = "Admin Page | Sigawai";
+        //Ambil data user login
+        $this->load->model('User_model','user');
+        $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+        // Ambil data penghasilan yang akan di edit
+        $this->load->model('gaji_model','gaji');
+        $data['editData'] = $this->gaji->GetDetailDataTransaksi($id_rtg);
+        $this->load->view('templates/admin_header',$data);
+        $this->load->view('templates/admin_topbar',$data);
+        $this->load->view('templates/admin_sidebar',$data);
+        $this->load->view('admin/pengaturanPotongan/editPotonganKppn_view',$data);
+    }
+
+    public function doEditPotonganKppn() {
+        $id_rtg = $this->input->post('id_rtg');
+        $jumlahBaru = $this->input->post('jumlah');
+        $jumlahBaru = str_replace(["Rp ",".",",00"],"",$jumlahBaru);
+        $this->load->model('gaji_model','gaji');
+        $transaksiGaji = $this->gaji->GetDetailDataTransaksi($id_rtg);
+        $jumlahLama = $transaksiGaji['jumlah'];
+        $data = [
+            'jumlah' => $jumlahBaru,
+            'updated_at' => time()
+        ];
+        $where = ['id_rtg' => $id_rtg];
+        $result = $this->gaji->UpdateDataTransaksi('rincian_transaksi_gaji',$data,$where);
+        if($result >= 1) {
+                $id_transaksi_gaji = $transaksiGaji['transaksi_gaji_id'];
+                //ambil data gaji
+                $dataLamaGaji = $this->gaji->getDataGajiLamaById($id_transaksi_gaji);
+                //Hitung ulang potongan KPPN baru
+                $potonganKppnBaru = ($dataLamaGaji['potongan_kppn'] - $jumlahLama) + $jumlahBaru;
+                $penghasilanBersihBaru = $dataLamaGaji['penghasilan_kotor'] - $potonganKppnBaru;
+                $updateGaji = [
+                    'potongan_kppn' => $potonganKppnBaru,
+                    'penghasilan_bersih' => $penghasilanBersihBaru,
+                    'gaji_bersih'       => $penghasilanBersihBaru - $dataLamaGaji['potongan_internal'],
+                    'updated_at'        => time()
+                ];
+                $whereIdGaji = ['id_transaksi_gaji' => $id_transaksi_gaji];
+                $result = $this->gaji->UpdateDataTransaksi('transaksi_gaji',$updateGaji,$whereIdGaji);
+                if($result >= 1) {
+                    $this->session->set_flashdata('message', 
+                    '<div class="alert alert-dismissible alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            Data Potongan KPPN Telah Diupdate!
+                    </div>');
+                    redirect('Potongan/referensiPotonganKppn');
+                } else {
+                    $this->session->set_flashdata('message', 
+                    '<div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Data Potongan KPPN Gagal Diupdate
+                    </div>');
+                    redirect('Potongan/editPotonganKppn/'.$id_rtg);
+                }
+                
+            } else {
+                $this->session->set_flashdata('message', 
+                '<div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Data Potongan KPPN Gagal Diupdate
+                </div>');
+                redirect('Potongan/editPotonganKppn/'.$id_rtg);
+            }
+    }
+
+    public function editPotonganInternal($id_rtg){
+        $data['title'] = "Admin Page | Sigawai";
+        //Ambil data user login
+        $this->load->model('User_model','user');
+        $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+        // Ambil data penghasilan yang akan di edit
+        $this->load->model('gaji_model','gaji');
+        $data['editData'] = $this->gaji->GetDetailDataTransaksi($id_rtg);
+        $this->load->view('templates/admin_header',$data);
+        $this->load->view('templates/admin_topbar',$data);
+        $this->load->view('templates/admin_sidebar',$data);
+        $this->load->view('admin/pengaturanPotongan/editPotonganInternal_view',$data);
+    }
+
+    public function doEditPotonganInternal() {
+        $id_rtg = $this->input->post('id_rtg');
+        $jumlahBaru = $this->input->post('jumlah');
+        $jumlahBaru = str_replace(["Rp ",".",",00"],"",$jumlahBaru);
+        $this->load->model('gaji_model','gaji');
+        $transaksiGaji = $this->gaji->GetDetailDataTransaksi($id_rtg);
+        $jumlahLama = $transaksiGaji['jumlah'];
+        $data = [
+            'jumlah' => $jumlahBaru,
+            'updated_at' => time()
+        ];
+        $where = ['id_rtg' => $id_rtg];
+        $result = $this->gaji->UpdateDataTransaksi('rincian_transaksi_gaji',$data,$where);
+        if($result >= 1) {
+                $id_transaksi_gaji = $transaksiGaji['transaksi_gaji_id'];
+                //ambil data gaji
+                $dataLamaGaji = $this->gaji->getDataGajiLamaById($id_transaksi_gaji);
+                //Hitung ulang potongan KPPN baru
+                $potonganInternalBaru = ($dataLamaGaji['potongan_internal'] - $jumlahLama) + $jumlahBaru;
+                $gajiBersihBaru = ($dataLamaGaji['penghasilan_kotor'] - $dataLamaGaji['potongan_kppn']) - $potonganInternalBaru;
+                $updateGaji = [
+                    'potongan_internal' => $potonganInternalBaru,
+                    'gaji_bersih'       => $gajiBersihBaru,
+                    'updated_at'        => time()
+                ];
+                $whereIdGaji = ['id_transaksi_gaji' => $id_transaksi_gaji];
+                $result = $this->gaji->UpdateDataTransaksi('transaksi_gaji',$updateGaji,$whereIdGaji);
+                if($result >= 1) {
+                    $this->session->set_flashdata('message', 
+                    '<div class="alert alert-dismissible alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            Data Potongan Internal Telah Diupdate!
+                    </div>');
+                    redirect('Potongan/referensiPotonganInternal');
+                } else {
+                    $this->session->set_flashdata('message', 
+                    '<div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Data Potongan Internal Gagal Diupdate
+                    </div>');
+                    redirect('Potongan/editPotonganInternal/'.$id_rtg);
+                }
+                
+            } else {
+                $this->session->set_flashdata('message', 
+                '<div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Data Potongan Internal Gagal Diupdate
+                </div>');
+                redirect('Potongan/editPotonganInternal/'.$id_rtg);
+            }
+    }
 }

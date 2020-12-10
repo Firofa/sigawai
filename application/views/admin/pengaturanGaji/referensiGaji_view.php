@@ -31,22 +31,22 @@
             <div class="box-body table-responsive">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                    <tr>
-				      	<th>No</th>
-				      	<th>Nama Pegawai</th>
-				      	<th>NIP</th>
-				      	<th>Tanggal Gaji</th>
-				      	<th>Jenis Penghasilan</th>
-				      	<th>Jumlah Penghasilan</th>
-				      	<th>Created at</th>
-				      	<th>Updated at</th>
-				      	
-				    </tr>
+                      <tr>
+                        <th>No</th>
+                        <th>Nama Pegawai</th>
+                        <th>NIP</th>
+                        <th>Tanggal Gaji</th>
+                        <th>Jenis Penghasilan</th>
+                        <th>Jumlah Penghasilan</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
+                        <th>Action</th>
+				              </tr>
                   </thead>
                   <tbody>
                   <?php 	$i = 1; ?>  
                   <?php foreach ($dataGaji as $data): ?>
-                    <tr>
+                      <tr>
                         <td><?= $i; ?></td>
                         <td><?= $data['name']; ?></td>
                         <td><?= $data['nip']; ?></td>
@@ -55,7 +55,11 @@
                         <td><?= 'Rp.'.number_format($data['jumlah'],2,',','.');?></td>
                         <td><?= date('d M Y',$data['created_at']); ?></td>
                         <td><?= date('d M Y',$data['updated_at']); ?></td>
-                    </tr>
+                        <td>
+                            <a href="<?= base_url('Gaji/editPenghasilan/'.$data['id_rtg']); ?>" class="btn btn-block btn-primary"><i class="fa fa-edit"></i> Edit</a>
+                            <a href="#" class="btn btn-block btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                        </td>
+                      </tr>
                         <?php $i++; ?>
                       <?php endforeach; ?>
                   </tbody>

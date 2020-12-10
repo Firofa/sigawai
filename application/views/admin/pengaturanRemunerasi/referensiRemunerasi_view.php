@@ -40,7 +40,7 @@
 				      	<th>Jumlah Remunerasi</th>
 				      	<th>Created at</th>
 				      	<th>Updated at</th>
-				      	
+				      	<th>Action</th>
 				    </tr>
                   </thead>
                   <tbody>
@@ -55,6 +55,10 @@
                         <td><?= 'Rp.'.number_format($data['jumlah'],2,',','.');?></td>
                         <td><?= date('d M Y',$data['created_at']); ?></td>
                         <td><?= date('d M Y',$data['updated_at']); ?></td>
+                        <td>
+                            <a href="<?= base_url('Remunerasi/editRemunerasi/'.$data['id_rtg']); ?>" class="btn btn-block btn-primary"><i class="fa fa-edit"></i> Edit</a>
+                            <a href="#" class="btn btn-block btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                        </td>
                     </tr>
                         <?php $i++; ?>
                       <?php endforeach; ?>

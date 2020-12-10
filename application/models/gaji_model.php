@@ -100,4 +100,25 @@ class Gaji_model extends CI_Model {
                                 ');
         return $data->result_array();
     }
+
+    public function GetDetailDataTransaksi($id_rtg){
+        $data = $this->db->query('SELECT `rincian_transaksi_gaji`.*,`perkiraan`.`nama_perkiraan`, `users`.`name`, `users`.`nip`
+                                FROM `rincian_transaksi_gaji`
+                                JOIN `perkiraan`
+                                ON `rincian_transaksi_gaji`.`perkiraan_id` = `perkiraan`.`id_perkiraan`
+                                JOIN `users`
+                                ON `rincian_transaksi_gaji`.`user_id` = `users`.`id_user`
+                                WHERE `rincian_transaksi_gaji`.`id_rtg` ='.$id_rtg);
+        return $data->row_array();;
+    }
+
+    public function getDataGajiLamaById($id_transaksi_gaji){
+        $data = $this->db->query('SELECT * FROM `transaksi_gaji` WHERE `transaksi_gaji`.`id_transaksi_gaji` = "'.$id_transaksi_gaji.'"');
+        return $data->row_array();
+    }
+
+    public function UpdateDataTransaksi($tableName,$data,$where){
+        $res = $this->db->Update($tableName,$data,$where);
+        return $res;
+    }
 }

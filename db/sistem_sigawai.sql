@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2020 at 02:44 AM
+-- Generation Time: Dec 10, 2020 at 12:42 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -52,7 +52,7 @@ CREATE TABLE `perkiraan` (
   `kode_perkiraan` varchar(5) NOT NULL,
   `nama_perkiraan` varchar(50) NOT NULL,
   `aktif` enum('Y','N') NOT NULL DEFAULT 'Y',
-  `status_perkiraan` enum('0','1','2','3','4') NOT NULL
+  `status_perkiraan` enum('0','1','2','3','4') NOT NULL COMMENT '0 = penghasilan, 1 - potongan kppn, 2 = potongan internal, 3 = uang makan, 4 = remunerasi'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -105,12 +105,33 @@ INSERT INTO `perkiraan` (`id_perkiraan`, `kode_perkiraan`, `nama_perkiraan`, `ak
 
 CREATE TABLE `rincian_transaksi_gaji` (
   `id_rtg` int(11) NOT NULL,
+  `transaksi_gaji_id` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `tgl_gaji` int(11) NOT NULL,
+  `tgl_gaji` date NOT NULL,
   `perkiraan_id` int(11) NOT NULL,
   `jumlah` int(128) DEFAULT NULL,
-  `created_at` int(11) NOT NULL
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rincian_transaksi_gaji`
+--
+
+INSERT INTO `rincian_transaksi_gaji` (`id_rtg`, `transaksi_gaji_id`, `user_id`, `tgl_gaji`, `perkiraan_id`, `jumlah`, `created_at`, `updated_at`) VALUES
+(1, 'itg5fcf6ab552ef6', 1, '2020-12-01', 1, 12000, 1607428789, 1607501812),
+(2, 'itg5fcf6ab552ef6', 1, '2020-12-01', 2, 12000, 1607428789, 1607428789),
+(3, 'itg5fcf6ab552ef6', 1, '2020-12-01', 4, 10000, 1607428789, 1607428789),
+(4, 'itg5fcf6ab552ef6', 1, '2020-12-01', 3, 20000, 1607428789, 1607501296),
+(5, 'itg5fcf6ab552ef6', 1, '2020-12-01', 5, 3000, 1607428789, 1607428789),
+(6, 'itg5fcf6ab552ef6', 1, '2020-12-01', 11, 2000, 1607428816, 1607513986),
+(7, 'itg5fcf6ab552ef6', 1, '2020-12-01', 12, 10000, 1607428837, 1607428789),
+(8, 'itg5fcf6ab552ef6', 1, '2020-12-01', 13, 1000, 1607428837, 1607513394),
+(9, 'itg5fcf6ab552ef6', 1, '2020-12-01', 14, 50000, 1607428855, 1607428789),
+(10, 'itg5fcf6ab552ef6', 1, '2020-12-01', 20, 10000, 1607428882, 1607428789),
+(11, 'itg5fcf6ab552ef6', 1, '2020-12-01', 21, 10000, 1607428882, 1607428789),
+(12, 'itg5fcf6ab552ef6', 1, '2020-12-01', 9, 10000, 1607429098, 1607428789),
+(13, 'itg5fcf6ab552ef6', 1, '2020-12-01', 7, 4000, 1607431102, 1607431102);
 
 -- --------------------------------------------------------
 
@@ -141,14 +162,22 @@ INSERT INTO `ruangan` (`id_ruangan`, `ruangan`) VALUES
 CREATE TABLE `transaksi_gaji` (
   `id_transaksi_gaji` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `tgl_gajian` int(11) NOT NULL,
-  `penghasilan_kotor` int(11) NOT NULL,
-  `potongan_kppn` int(11) NOT NULL,
-  `penghasilan_bersih` int(11) NOT NULL,
-  `potongan_internal` int(11) NOT NULL,
-  `gaji_bersih` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `tgl_gajian` date NOT NULL,
+  `penghasilan_kotor` int(50) NOT NULL DEFAULT 0,
+  `potongan_kppn` int(50) NOT NULL DEFAULT 0,
+  `penghasilan_bersih` int(50) NOT NULL DEFAULT 0,
+  `potongan_internal` int(50) NOT NULL DEFAULT 0,
+  `gaji_bersih` int(50) NOT NULL DEFAULT 0,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transaksi_gaji`
+--
+
+INSERT INTO `transaksi_gaji` (`id_transaksi_gaji`, `user_id`, `tgl_gajian`, `penghasilan_kotor`, `potongan_kppn`, `penghasilan_bersih`, `potongan_internal`, `gaji_bersih`, `created_at`, `updated_at`) VALUES
+('itg5fcf6ab552ef6', 1, '2020-12-01', 79000, 50000, 29000, 20000, 9000, 1607428789, 1607513986);
 
 -- --------------------------------------------------------
 
@@ -283,7 +312,7 @@ ALTER TABLE `perkiraan`
 -- AUTO_INCREMENT for table `rincian_transaksi_gaji`
 --
 ALTER TABLE `rincian_transaksi_gaji`
-  MODIFY `id_rtg` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rtg` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `ruangan`
