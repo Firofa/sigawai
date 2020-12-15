@@ -16,7 +16,7 @@ class Ruangan extends CI_Controller {
     public function pengaturanRuangan() {
         $this->form_validation->set_rules("ruangan","Ruangan","required|trim");
         if($this->form_validation->run() == false) {
-            $data['title'] = "Admin Page | SIPERMA";
+            $data['title'] = "Admin Page | SIGAWAI";
             //Ambil data user
             $this->load->model('User_model','user');
             $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -39,7 +39,7 @@ class Ruangan extends CI_Controller {
     }
 
     public function editDataRuangan($id_ruangan) {
-		$data['title'] = "Admin Page | SIPERMA";
+		$data['title'] = "Admin Page | SIGAWAI";
 		//Ambil data user login
 		$this->load->model('User_model','user');
 		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));

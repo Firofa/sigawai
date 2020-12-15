@@ -152,7 +152,7 @@ $(document).ready(function(){
         $('#data_perkiraan').find("tr:gt(0)").remove();
         $('#action_alert').html('<p>Data Inserted Successfully</p>'); 
         $('#action_alert').dialog('open');
-        document.location.href = "Remunerasi";
+        document.location.href = "Umakan";
        },
        error:function(xml,text,error)
        {

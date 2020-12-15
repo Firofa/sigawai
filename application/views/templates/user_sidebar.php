@@ -15,11 +15,11 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">NAVIGATION</li>
-        <li> <a href="<?= base_url('user'); ?>"><i class="fa fa-dashboard"></i><span>Home</span></a></li>
-        <li><a href="<?= base_url('user'); ?>"><i class="fa fa-dashboard"></i><span>Slip Gaji</span></a></li>
-        <li><a href="<?= base_url('user'); ?>"><i class="fa fa-dashboard"></i><span>Rincian Gaji</span></a></li>
-        <li><a href="<?= base_url('user'); ?>"><i class="fa fa-dashboard"></i><span>Rekapitulasi Setahun</span></a></li>
-        <li><a href="<?= base_url('user/changePassword'); ?>"><i class="fa fa-lock"></i> <span>Change Password</span></a></li>
+        <li> <a href="<?= base_url('User'); ?>"><i class="fa fa-dashboard"></i><span>Home</span></a></li>
+        <li><a href="<?= base_url('User/slipGaji'); ?>"><i class="fa fa-dashboard"></i><span>Slip Gaji</span></a></li>
+        <li><a href="<?= base_url('User/rincianGaji'); ?>"><i class="fa fa-dashboard"></i><span>Rincian Gaji</span></a></li>
+        <li><a href="<?= base_url('User/rekapitulasiGaji'); ?>"><i class="fa fa-dashboard"></i><span>Rekapitulasi Setahun</span></a></li>
+        <li><a href="<?= base_url('User/changePassword'); ?>"><i class="fa fa-lock"></i> <span>Change Password</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->

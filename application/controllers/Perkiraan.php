@@ -18,7 +18,7 @@ class Perkiraan extends CI_Controller {
         $this->form_validation->set_rules("nama_perkiraan","Nama Perkiraan","required|trim");
         $this->form_validation->set_rules("status_perkiraan","Status Perkiraan","required|trim");
         if($this->form_validation->run() == false) {
-            $data['title'] = "Admin Page | SIPERMA";
+            $data['title'] = "Admin Page | SIGAWAI";
             //Ambil data user
             $this->load->model('User_model','user');
             $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -44,7 +44,7 @@ class Perkiraan extends CI_Controller {
     }
 
     public function editDataPerkiraan($id_perkiraan) {
-		$data['title'] = "Admin Page | SIPERMA";
+		$data['title'] = "Admin Page | SIGAWAI";
 		//Ambil data user login
 		$this->load->model('User_model','user');
 		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -89,6 +89,7 @@ class Perkiraan extends CI_Controller {
         }
     }
 
+    
 
 
 

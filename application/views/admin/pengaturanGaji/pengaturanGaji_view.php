@@ -148,7 +148,7 @@
                         <td><?= 'Rp.'.number_format($gj['potongan_internal'],2,',','.');?></td>
                         <td><?= 'Rp.'.number_format($gj['gaji_bersih'],2,',','.');?></td>
                     <td>
-                          <a href="<?= ('Gaji/editDataTransaksiGaji/').$gj['id_transaksi_gaji'];?>" class="badge badge-success">Edit</a>
+                          <a href="<?= ('Gaji/detailGaji/').$gj['id_transaksi_gaji'];?>" class="badge badge-success">Detail</a>
                         
                     </td>
                   </tr>

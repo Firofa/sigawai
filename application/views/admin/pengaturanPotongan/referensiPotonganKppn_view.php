@@ -58,7 +58,7 @@
                         <td><?= date('d M Y',$data['updated_at']); ?></td>
                         <td>
                             <a href="<?= base_url('Potongan/editPotonganKppn/'.$data['id_rtg']); ?>" class="btn btn-block btn-primary"><i class="fa fa-edit"></i> Edit</a>
-                            <a href="#" class="btn btn-block btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                            <a href="<?= base_url('Potongan/hapusPotonganKppn/'.$data['id_rtg']); ?>" onclick="return confirm('Yakin ingin menghapus data?');" class="btn btn-block btn-danger"><i class="fa fa-trash"></i> Delete</a>
                         </td>
                     </tr>
                         <?php $i++; ?>

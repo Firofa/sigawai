@@ -76,8 +76,150 @@ class User extends CI_Controller {
 			}
 		}
 		}
-    }
-    
+	}
+	
+	public function slipGaji(){
+		$data['title'] = "Admin Page | Sigawai";
+		//Ambil data user
+		$this->load->model('User_model','user');
+		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+		$id_user = $data['user']['id_user'];
+		$this->load->model('Gaji_model','gaji');
+		$data['bulan'] = [
+            ['nama_bulan' => 'Januari', 'nomor_bulan' => 1],
+            ['nama_bulan' => 'Februari', 'nomor_bulan' => 2],
+            ['nama_bulan' => 'Maret', 'nomor_bulan' => 3],
+            ['nama_bulan' => 'April', 'nomor_bulan' => 4],
+            ['nama_bulan' => 'Mei', 'nomor_bulan' => 5],
+            ['nama_bulan' => 'Juni', 'nomor_bulan' => 6],
+            ['nama_bulan' => 'Juli', 'nomor_bulan' => 7],
+            ['nama_bulan' => 'Agustus', 'nomor_bulan' => 8],
+            ['nama_bulan' => 'September', 'nomor_bulan' => 9],
+            ['nama_bulan' => 'Oktober', 'nomor_bulan' => 10],
+            ['nama_bulan' => 'November', 'nomor_bulan' => 11],
+            ['nama_bulan' => 'Desember', 'nomor_bulan' => 12]
+        ];
+		$data['tgl_transaksi'] = $this->gaji->getAllTransaksiGajiByUser($id_user);
+		$this->load->view('templates/user_header',$data);
+        $this->load->view('templates/user_topbar',$data);
+        $this->load->view('templates/user_sidebar',$data);
+        $this->load->view('user/slip_gaji_view',$data);
+	}
 
+	public function rincianGaji(){
+		$data['title'] = "Admin Page | Sigawai";
+		//Ambil data user
+		$this->load->model('User_model','user');
+		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+		$id_user = $data['user']['id_user'];
+		$this->load->model('Gaji_model','gaji');
+		$data['bulan'] = [
+            ['nama_bulan' => 'Januari', 'nomor_bulan' => 1],
+            ['nama_bulan' => 'Februari', 'nomor_bulan' => 2],
+            ['nama_bulan' => 'Maret', 'nomor_bulan' => 3],
+            ['nama_bulan' => 'April', 'nomor_bulan' => 4],
+            ['nama_bulan' => 'Mei', 'nomor_bulan' => 5],
+            ['nama_bulan' => 'Juni', 'nomor_bulan' => 6],
+            ['nama_bulan' => 'Juli', 'nomor_bulan' => 7],
+            ['nama_bulan' => 'Agustus', 'nomor_bulan' => 8],
+            ['nama_bulan' => 'September', 'nomor_bulan' => 9],
+            ['nama_bulan' => 'Oktober', 'nomor_bulan' => 10],
+            ['nama_bulan' => 'November', 'nomor_bulan' => 11],
+            ['nama_bulan' => 'Desember', 'nomor_bulan' => 12]
+        ];
+		$data['tgl_transaksi'] = $this->gaji->getAllTransaksiGajiByUser($id_user);
+		$this->load->view('templates/user_header',$data);
+        $this->load->view('templates/user_topbar',$data);
+        $this->load->view('templates/user_sidebar',$data);
+        $this->load->view('user/rincian_gaji_view',$data);
+	}
 
+	public function slipGajiDetail() {
+		$this->load->model('User_model','user');
+		$data['user'] = $this->user->getDataUsersNameNipById($this->session->userdata('nip'));
+		$id_user = $data['user']['id_user'];
+		//POST DATA
+		$bulan_gaji = $this->input->post('bulan_gaji');
+		$tahun_gaji = $this->input->post('tahun_gaji');
+		
+		//GET DATA
+		$this->load->model('Gaji_model','gaji');
+		$data['dataPenghasilan'] = $this->gaji->GetDetailTransaksiByBulanAndTahun($id_user,$bulan_gaji,$tahun_gaji,0);
+        $data['dataPotonganKppn'] = $this->gaji->GetDetailTransaksiByBulanAndTahun($id_user,$bulan_gaji,$tahun_gaji,1);
+        $data['dataPotonganInternal'] = $this->gaji->GetDetailTransaksiByBulanAndTahun($id_user,$bulan_gaji,$tahun_gaji,2);
+		$data['transaksi_gaji_id'] = $this->gaji->getIdTransaksiGaji($id_user,$bulan_gaji,$tahun_gaji);
+		echo json_encode($data);
+	}
+
+	public function rincianGajiDetail() {
+		$this->load->model('User_model','user');
+		$data['user'] = $this->user->getDataUsersNameNipById($this->session->userdata('nip'));
+		$id_user = $data['user']['id_user'];
+		//POST DATA
+		$bulan_gaji = $this->input->post('bulan_gaji');
+		$tahun_gaji = $this->input->post('tahun_gaji');
+		
+		//GET DATA
+		$this->load->model('Gaji_model','gaji');
+		$data['dataPenghasilan'] = $this->gaji->GetDetailTransaksiByBulanAndTahun($id_user,$bulan_gaji,$tahun_gaji,0);
+        $data['dataUangMakan'] = $this->gaji->GetDetailTransaksiByBulanAndTahun($id_user,$bulan_gaji,$tahun_gaji,3);
+        $data['dataRemunerasi'] = $this->gaji->GetDetailTransaksiByBulanAndTahun($id_user,$bulan_gaji,$tahun_gaji,4);
+        $data['dataPotonganKppn'] = $this->gaji->GetDetailTransaksiByBulanAndTahun($id_user,$bulan_gaji,$tahun_gaji,1);
+        $data['dataPotonganInternal'] = $this->gaji->GetDetailTransaksiByBulanAndTahun($id_user,$bulan_gaji,$tahun_gaji,2);
+		$data['transaksi_gaji_id'] = $this->gaji->getIdTransaksiGaji($id_user,$bulan_gaji,$tahun_gaji);
+		echo json_encode($data);
+	}
+
+	public function cetakSlipGajiPdf($id_transaksi_gaji) {
+		//Ambil Informasi Pegawai
+        $this->load->model('User_model','user');
+        $data['pegawai'] = $this->user->getDataUserByIdTransaksi($id_transaksi_gaji);
+        //Ambil Data Penghasilan
+        $this->load->model('gaji_model','gaji');
+        $data['title'] = "Slip Gaji";
+        $date = $data['pegawai']['tgl_gajian'];
+        $data['date'] = date_parse_from_format("Y-m-d", $date);
+        $data['dataPenghasilan'] = $this->gaji->GetDetailTransaksiById($id_transaksi_gaji,0);
+        $data['dataPotonganKppn'] = $this->gaji->GetDetailTransaksiById($id_transaksi_gaji,1);
+        $data['dataPotonganInternal'] = $this->gaji->GetDetailTransaksiById($id_transaksi_gaji,2);
+        $this->load->library('pdf');
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->filename = "slip_gaji.pdf";
+        $this->pdf->load_view('user/laporan_slipGaji_pdf', $data);
+	}
+
+	public function cetakRincianGajiPdf($id_transaksi_gaji) {
+		//Ambil Informasi Pegawai
+        $this->load->model('User_model','user');
+        $data['pegawai'] = $this->user->getDataUserByIdTransaksi($id_transaksi_gaji);
+        //Ambil Data Penghasilan
+        $this->load->model('gaji_model','gaji');
+        $data['title'] = "Rincian Gaji";
+        $date = $data['pegawai']['tgl_gajian'];
+        $data['date'] = date_parse_from_format("Y-m-d", $date);
+        $data['dataPenghasilan'] = $this->gaji->GetDetailTransaksiById($id_transaksi_gaji,0);
+        $data['dataUangMakan'] = $this->gaji->GetDetailTransaksiById($id_transaksi_gaji,3);
+        $data['dataRemunerasi'] = $this->gaji->GetDetailTransaksiById($id_transaksi_gaji,4);
+        $data['dataPotonganKppn'] = $this->gaji->GetDetailTransaksiById($id_transaksi_gaji,1);
+        $data['dataPotonganInternal'] = $this->gaji->GetDetailTransaksiById($id_transaksi_gaji,2);
+        $this->load->library('pdf');
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->filename = "rincian_gaji.pdf";
+        $this->pdf->load_view('laporan_pdf', $data);
+	}
+
+	public function rekapitulasiGaji() {
+            $data['title'] = "Rekapitulasi Gaji Page | SIGAWAI";
+            //Ambil data user
+            $this->load->model('User_model','user');
+            $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
+			$id_user = $data['user']['id_user'];
+            //Ambil Data Gaji Seluruh Pegawai
+		    $this->load->model('gaji_model','gaji');
+			$data['gaji'] = $this->gaji->GetDataTransaksiGajiByUser($id_user);
+            $this->load->view('templates/user_header',$data);
+			$this->load->view('templates/user_topbar',$data);
+			$this->load->view('templates/user_sidebar',$data);
+			$this->load->view('user/rekapitulasiGaji_view',$data);
+	}
 }

@@ -63,7 +63,8 @@ class Remunerasi extends CI_Controller {
                         'tgl_gaji' => $tgl_gaji,
                         'perkiraan_id' => $perkiraan_id[$count],
                         'jumlah' => str_replace(["Rp ",".",",00"],"",$jumlah_penghasilan[$count]),
-                        'created_at' => time()
+                        'created_at' => time(),
+                        'updated_at' => time()
                     );
                 } else {
                     $data = array(
@@ -72,7 +73,8 @@ class Remunerasi extends CI_Controller {
                         'tgl_gaji'  => $tgl_gaji,
                         'perkiraan_id' => $perkiraan_id[$count],
                         'jumlah' => str_replace(["Rp ",".",",00"],"",$jumlah_penghasilan[$count]),
-                        'created_at' => time()
+                        'created_at' => time(),
+                        'updated_at' => time()
                     );
                 }
                 $penghasilan_kotor = $penghasilan_kotor + str_replace(["Rp ",".",",00"],"",$jumlah_penghasilan[$count]);
@@ -104,7 +106,8 @@ class Remunerasi extends CI_Controller {
                 'penghasilan_kotor' => $penghasilan_kotor,
                 'penghasilan_bersih' => $penghasilan_kotor,
                 'gaji_bersih' => $penghasilan_kotor,
-                'created_at' => time()
+                'created_at' => time(),
+                'updated_at' => time()
             ];
             $this->db->insert('transaksi_gaji',$transaksi_gaji);
         } else {
@@ -113,8 +116,8 @@ class Remunerasi extends CI_Controller {
                 'user_id' => $id_user,
                 'tgl_gajian' => $tgl_gaji,
                 'penghasilan_kotor' => $penghasilan_kotor,
-                'penghasilan_bersih' => $penghasilan_kotor - $dataGajiUser['penghasilan_kppn'],
-                'gaji_bersih' => $penghasilan_kotor - ($dataGajiUser['penghasilan_kppn'] + $dataGajiUser['penghasilan_internal']),
+                'penghasilan_bersih' => $penghasilan_kotor - $dataGajiUser['potongan_kppn'],
+                'gaji_bersih' => $penghasilan_kotor - ($dataGajiUser['potongan_kppn'] + $dataGajiUser['potongan_internal']),
                 'updated_at' => time()
             ];
             $where = [
@@ -126,7 +129,7 @@ class Remunerasi extends CI_Controller {
     }
 
     public function referensi() {
-        $data['title'] = "Admin Page | SIPERMA";
+        $data['title'] = "Admin Page | SIGAWAI";
         //Ambil data user
         $this->load->model('User_model','user');
         $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -205,4 +208,40 @@ class Remunerasi extends CI_Controller {
                 redirect('Remunerasi/editRemunerasi/'.$id_rtg);
             }
     }
+
+    public function hapusRemunerasi($id_rtg) 
+    {
+        $this->load->model('gaji_model','gaji');
+        //Ambil data yang akan dihapus
+        $transaksiGaji = $this->gaji->GetDetailDataTransaksi($id_rtg);
+        //Ambil data jumlah yang akan dihapus
+        $jumlahDihapus = $transaksiGaji['jumlah'];
+        //Ambil Id transaksi Gaji
+        $id_transaksi_gaji = $transaksiGaji['transaksi_gaji_id'];
+        //Ambil data transaksi
+        $dataLamaGaji = $this->gaji->getDataGajiLamaById($id_transaksi_gaji);
+        $penghasilanKotorBaru = $dataLamaGaji['penghasilan_kotor'] - $jumlahDihapus;
+                $updateGaji = [
+                    'penghasilan_kotor' => $penghasilanKotorBaru,
+                    'penghasilan_bersih' => $penghasilanKotorBaru - $dataLamaGaji['potongan_kppn'],
+                    'gaji_bersih'       => $penghasilanKotorBaru - ($dataLamaGaji['potongan_kppn'] + $dataLamaGaji['potongan_internal']),
+                    'updated_at'        => time()
+                ];
+        $whereIdGaji = ['id_transaksi_gaji' => $id_transaksi_gaji];
+        $result = $this->gaji->UpdateDataTransaksi('transaksi_gaji',$updateGaji,$whereIdGaji);
+        if($result >= 1) {
+            $this->db->delete('rincian_transaksi_gaji', array('id_rtg' => $id_rtg));
+            $this->session->set_flashdata("message","<div class='alert alert-success' role='alert'>Data Remunerasi Berhasil Dihapus.</div>");
+            redirect('Remunerasi/referensi');
+        } else {
+            $this->session->set_flashdata('message', 
+            '<div class="alert alert-dismissible alert-danger">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  Data Remunerasi Gagal Di Delete
+            </div>');
+            redirect('Remunerasi/referensi');
+        }
+        
+    }
+    
 }

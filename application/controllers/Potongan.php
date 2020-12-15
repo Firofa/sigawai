@@ -81,7 +81,8 @@ class Potongan extends CI_Controller {
                         'tgl_gaji' => $tgl_gaji,
                         'perkiraan_id' => $perkiraan_id[$count],
                         'jumlah' => str_replace(["Rp ",".",",00"],"",$jumlah_potongan_internal[$count]),
-                        'created_at' => time()
+                        'created_at' => time(),
+                        'updated_at' => time()
                     );
                 } else {
                     $data = array(
@@ -90,7 +91,8 @@ class Potongan extends CI_Controller {
                         'tgl_gaji'  => $tgl_gaji,
                         'perkiraan_id' => $perkiraan_id[$count],
                         'jumlah' => str_replace(["Rp ",".",",00"],"",$jumlah_potongan_internal[$count]),
-                        'created_at' => time()
+                        'created_at' => time(),
+                        'updated_at' => time()
                     );
                 }
                 $potongan_internal = $potongan_internal + str_replace(["Rp ",".",",00"],"",$jumlah_potongan_internal[$count]);
@@ -121,7 +123,8 @@ class Potongan extends CI_Controller {
                 'tgl_gajian' => $tgl_gaji,
                 'potongan_internal' => $potongan_internal,
                 'gaji_bersih' => 0 - $potongan_internal,
-                'created_at' => time()
+                'created_at' => time(),
+                'updated_at' => time()
             ];
             $this->db->insert('transaksi_gaji',$transaksi_gaji);
         } else {
@@ -173,7 +176,8 @@ class Potongan extends CI_Controller {
                         'tgl_gaji' => $tgl_gaji,
                         'perkiraan_id' => $perkiraan_id[$count],
                         'jumlah' => str_replace(["Rp ",".",",00"],"",$jumlah_potongan_kppn[$count]),
-                        'created_at' => time()
+                        'created_at' => time(),
+                        'updated_at' => time()
                     );
                 } else {
                     $data = array(
@@ -182,7 +186,8 @@ class Potongan extends CI_Controller {
                         'tgl_gaji'  => $tgl_gaji,
                         'perkiraan_id' => $perkiraan_id[$count],
                         'jumlah' => str_replace(["Rp ",".",",00"],"",$jumlah_potongan_kppn[$count]),
-                        'created_at' => time()
+                        'created_at' => time(),
+                        'updated_at' => time()
                     );
                 }
                 $potongan_kppn = $potongan_kppn + str_replace(["Rp ",".",",00"],"",$jumlah_potongan_kppn[$count]);
@@ -214,7 +219,8 @@ class Potongan extends CI_Controller {
                 'potongan_kppn' => $potongan_kppn,
                 'penghasilan_bersih' => 0 - $potongan_kppn,
                 'gaji_bersih' => 0 - $potongan_kppn,
-                'created_at' => time()
+                'created_at' => time(),
+                'updated_at' => time()
             ];
             $this->db->insert('transaksi_gaji',$transaksi_gaji);
         } else {
@@ -236,7 +242,7 @@ class Potongan extends CI_Controller {
     }
 
     public function referensiPotonganInternal() {
-        $data['title'] = "Admin Page | SIPERMA";
+        $data['title'] = "Admin Page | SIGAWAI";
         //Ambil data user
         $this->load->model('User_model','user');
         $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -251,7 +257,7 @@ class Potongan extends CI_Controller {
     }
 
     public function referensiPotonganKppn() {
-        $data['title'] = "Admin Page | SIPERMA";
+        $data['title'] = "Admin Page | SIGAWAI";
         //Ambil data user
         $this->load->model('User_model','user');
         $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -398,5 +404,75 @@ class Potongan extends CI_Controller {
                 </div>');
                 redirect('Potongan/editPotonganInternal/'.$id_rtg);
             }
+    }
+
+    public function hapusPotonganKppn($id_rtg) 
+    {
+        $this->load->model('gaji_model','gaji');
+        //Ambil data yang akan dihapus
+        $transaksiGaji = $this->gaji->GetDetailDataTransaksi($id_rtg);
+        //Ambil data jumlah yang akan dihapus
+        $jumlahDihapus = $transaksiGaji['jumlah'];
+        //Ambil Id transaksi Gaji
+        $id_transaksi_gaji = $transaksiGaji['transaksi_gaji_id'];
+        //Ambil data transaksi
+        $dataLamaGaji = $this->gaji->getDataGajiLamaById($id_transaksi_gaji);
+        $potonganKppnBaru = $dataLamaGaji['potongan_kppn'] - $jumlahDihapus;
+                $updateGaji = [
+                    'potongan_kppn' => $potonganKppnBaru,
+                    'penghasilan_bersih' => $dataLamaGaji['penghasilan_kotor'] - $potonganKppnBaru,
+                    'gaji_bersih'       => ($dataLamaGaji['penghasilan_kotor'] - $potonganKppnBaru) - $dataLamaGaji['potongan_internal'],
+                    'updated_at'        => time()
+                ];
+        $whereIdGaji = ['id_transaksi_gaji' => $id_transaksi_gaji];
+        $result = $this->gaji->UpdateDataTransaksi('transaksi_gaji',$updateGaji,$whereIdGaji);
+        if($result >= 1) {
+            $this->db->delete('rincian_transaksi_gaji', array('id_rtg' => $id_rtg));
+            $this->session->set_flashdata("message","<div class='alert alert-success' role='alert'>Data Potongan KPPN Berhasil Dihapus.</div>");
+            redirect('Potongan/referensiPotonganKppn');
+        } else {
+            $this->session->set_flashdata('message', 
+            '<div class="alert alert-dismissible alert-danger">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  Data Potongan KPPN Gagal Di Delete
+            </div>');
+            redirect('Potongan/referensiPotonganKppn');
+        }
+        
+    }
+
+    public function hapusPotonganInternal($id_rtg) 
+    {
+        $this->load->model('gaji_model','gaji');
+        //Ambil data yang akan dihapus
+        $transaksiGaji = $this->gaji->GetDetailDataTransaksi($id_rtg);
+        //Ambil data jumlah yang akan dihapus
+        $jumlahDihapus = $transaksiGaji['jumlah'];
+        //Ambil Id transaksi Gaji
+        $id_transaksi_gaji = $transaksiGaji['transaksi_gaji_id'];
+        //Ambil data transaksi
+        $dataLamaGaji = $this->gaji->getDataGajiLamaById($id_transaksi_gaji);
+        $potonganInternalBaru = $dataLamaGaji['potongan_internal'] - $jumlahDihapus;
+        $gajiBersihBaru = ($dataLamaGaji['penghasilan_kotor'] - $dataLamaGaji['potongan_kppn']) - $potonganInternalBaru;
+                $updateGaji = [
+                    'potongan_internal' => $potonganInternalBaru,
+                    'gaji_bersih'       => $gajiBersihBaru,
+                    'updated_at'        => time()
+                ];
+        $whereIdGaji = ['id_transaksi_gaji' => $id_transaksi_gaji];
+        $result = $this->gaji->UpdateDataTransaksi('transaksi_gaji',$updateGaji,$whereIdGaji);
+        if($result >= 1) {
+            $this->db->delete('rincian_transaksi_gaji', array('id_rtg' => $id_rtg));
+            $this->session->set_flashdata("message","<div class='alert alert-success' role='alert'>Data Potongan Internal Berhasil Dihapus.</div>");
+            redirect('Potongan/referensiPotonganInternal');
+        } else {
+            $this->session->set_flashdata('message', 
+            '<div class="alert alert-dismissible alert-danger">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  Data Potongan Internal Gagal Di Delete
+            </div>');
+            redirect('Potongan/referensiPotonganInternal');
+        }
+        
     }
 }

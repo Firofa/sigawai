@@ -26,19 +26,25 @@
                       RINCIAN PENGHASILAN
                     </div>
                     <div class="col-sm-8">
-                      
+                      <form class="form-inline" action="/action_page.php">
                         <div class="form-group col-sm-4">
-                          
+                          <label for="bulan">Bulan:</label>
+                          <select name="bulan" id="bulan" class="form-control">
+                            <option value="januari">Januari</option>
+                            <option value="februari">Februari</option>
+                          </select>
                         </div>
                         <div class="form-group col-sm-4">
-                          
+                          <label for="pwd">Tahun:</label>
+                          <select name="tahun" id="tahun" class="form-control">
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                          </select>
                         </div>
-                        <div class="form-group col-sm-1">
-                        </div>
-                     
+                      </form>
                     </div>
-                    <div class="col-sm-1">
-                        <a target="_blank" href="<?= base_url('Gaji/cetakPdf/'.$pegawai['id_transaksi_gaji']); ?>" class="btn btn-primary">Download Pdf</a>  
+                    <div class="col-sm-2">
+                        <a href="#" class="btn btn-primary">Download Pdf</a>  
                     </div>
                 </div>
                 <div class="row">
@@ -194,27 +200,10 @@
                       </div>
                     </div>
                  </div>
-                <br>
-                 <div class="row">
-                 <div class="col-sm-10 bg-info">
-                      <h5>C. JUMLAH PENGHASILAN BERSIH (A - B)</h5>
-                    </div>
-                    <div class="col-sm-1 bg-info">
-                      <div class="pull-right">
-                        <h5>Rp. </h5>
-                      </div>
-                    </div>
-                    <div class="col-sm-1 bg-info">
-                      <div class="pull-right">
-                        <?php $jumlahGajiBersih = $totalPenghasilan - $totalPotonganKppn; ?>
-                        <h5><?= number_format($jumlahGajiBersih,2,',','.');?></h5>
-                      </div>
-                    </div>
-                 </div>
-                 <br>
+            <br>
                
                 <div class="row bg-primary">
-                  <h4>&nbsp;<b>D. Potongan Internal</b></h4>
+                  <h4>&nbsp;<b>B. Potongan Internal</b></h4>
                 </div>
                   <div class="row">
                     <?php $totalPotonganInternal = 0; ?>
@@ -243,28 +232,15 @@
                       </div>
                     </div>
                  </div>
-                 <br>
-                 <div class="row">
-                 <div class="col-sm-10 bg-info">
-                      <h5>E. JUMLAH GAJI YANG DITERIMA/DITRANSFER (C - D)</h5>
-                    </div>
-                    <div class="col-sm-1 bg-info">
-                      <div class="pull-right">
-                        <h5>Rp. </h5>
-                      </div>
-                    </div>
-                    <div class="col-sm-1 bg-info">
-                      <div class="pull-right">
-                        <?php $jumlahGajiTerima = $totalPenghasilan - ($totalPotonganKppn + $totalPotonganInternal); ?>
-                        <h5><?= number_format($jumlahGajiTerima,2,',','.');?></h5>
-                      </div>
-                    </div>
-                 </div>
             </div>
         </div>  
+          <div class="modal-footer">
+              
+          </div>
         </div>
         <!-- /.box-body -->
-        
+        <div class="box-footer">
+        </div>
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
@@ -337,25 +313,3 @@
       'autoWidth'   : false
     })
   })
-
-  $(document).ready( ()=> {
-  $('#cekRincian').submit(()=>{
-    var form_data = $(this).serialize();
-    $.ajax({
-      type: "POST",
-      url: "Gaji/detailGaji",
-      data: form_data,
-      success:function(data){
-        return data;
-      },
-      error:function(xml,text,error){
-        console.log('error');
-      }
-    });
-  });
-});
-
-
-</script>
-</body>
-</html>

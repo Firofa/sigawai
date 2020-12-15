@@ -11,6 +11,15 @@ class Gaji_model extends CI_Model {
         return $data->result_array();
     }
 
+    public function GetDataTransaksiGajiByUser($id_user) {
+        $data = $this->db->query("SELECT `transaksi_gaji`.*, `users`.`name`, `users`.`nip` 
+                                FROM `transaksi_gaji` 
+                                JOIN `users` ON `transaksi_gaji`.`user_id` = `users`.`id_user`
+                                WHERE `transaksi_gaji`.`user_id` = '".$id_user."'
+                                ORDER BY `transaksi_gaji`.`updated_at` DESC");
+        return $data->result_array();
+    }
+
     public function GetEditDataTransaksiGaji($id_transaksi_gaji) {
         $data = $this->db->query("SELECT * FROM `transaksi_gaji` WHERE `transaksi_gaji`.`id_transaksi_gaji` = ".$id_transaksi_gaji);
         return $data->row_array();
@@ -48,11 +57,11 @@ class Gaji_model extends CI_Model {
     }
 
     public function cekDataGajiUserByBulan($id_user,$bulan,$tahun){
-        $data = $this->db->query('SELECT *
+        $data = $this->db->query("SELECT *
                                 FROM `transaksi_gaji`
-                                WHERE `transaksi_gaji`.`user_id` = "'.$id_user.'"
-                                AND MONTH(`transaksi_gaji`.`tgl_gajian`) = "'.$bulan.'"
-                                AND YEAR(`transaksi_gaji`.`tgl_gajian`) = "'.$tahun.'"'
+                                WHERE `transaksi_gaji`.`user_id` = '".$id_user."'
+                                AND MONTH(`transaksi_gaji`.`tgl_gajian`) = '".$bulan."'
+                                AND YEAR(`transaksi_gaji`.`tgl_gajian`) = '".$tahun."'"
                                 );
         return $data->row_array();
     }
@@ -121,4 +130,54 @@ class Gaji_model extends CI_Model {
         $res = $this->db->Update($tableName,$data,$where);
         return $res;
     }
+
+    public function GetDetailTransaksiById($id_transaksi_gaji,$status_perkiraan) {
+        $data = $this->db->query("SELECT `rincian_transaksi_gaji`.*, `users`.`name`, `users`.`nip`, `users`.`no_rek`, `transaksi_gaji`.*, `perkiraan`.`nama_perkiraan` 
+                                FROM `rincian_transaksi_gaji`
+                                JOIN  `users`
+                                ON `rincian_transaksi_gaji`.`user_id` = `users`.`id_user`
+                                JOIN `transaksi_gaji`
+                                ON `rincian_transaksi_gaji`.`transaksi_gaji_id` = `transaksi_gaji`.`id_transaksi_gaji`
+                                JOIN `perkiraan`
+                                ON `rincian_transaksi_gaji`.`perkiraan_id` = `perkiraan`.`id_perkiraan`
+                                WHERE `rincian_transaksi_gaji`.`transaksi_gaji_id` = '".$id_transaksi_gaji."'
+                                AND `perkiraan`.`status_perkiraan` = '".$status_perkiraan."'
+                                ");
+        return $data->result_array();
+    }
+
+    
+
+    public function getAllTransaksiGajiByUser($id_user){
+        $data = $this->db->query("SELECT `transaksi_gaji`.`id_transaksi_gaji`, MONTH(`transaksi_gaji`.`tgl_gajian`) as 'bulan_gajian', YEAR(`transaksi_gaji`.`tgl_gajian`) as tahun_gajian
+                                FROM `transaksi_gaji` 
+                                WHERE `transaksi_gaji`.`user_id` = '".$id_user."'"
+                                );
+        return $data->result_array();
+    }
+
+    public function GetDetailTransaksiByBulanAndTahun($id_user,$bulan_gaji,$tahun_gaji,$status_perkiraan){
+        $data = $this->db->query("SELECT `perkiraan`.`nama_perkiraan`, `rincian_transaksi_gaji`.`jumlah`
+                                FROM `rincian_transaksi_gaji`
+                                JOIN `perkiraan`
+                                ON `rincian_transaksi_gaji`.`perkiraan_id` = `perkiraan`.`id_perkiraan`
+                                WHERE `rincian_transaksi_gaji`.`user_id` = '".$id_user."'
+                                AND MONTH(`rincian_transaksi_gaji`.`tgl_gaji`) = '".$bulan_gaji."'
+                                AND YEAR(`rincian_transaksi_gaji`.`tgl_gaji`) = '".$tahun_gaji."'
+                                AND `perkiraan`.`status_perkiraan` = '".$status_perkiraan."'");
+        return $data->result_array();
+
+    }
+
+    public function getIdTransaksiGaji($id_user,$bulan_gaji,$tahun_gaji){
+        $data = $this->db->query("SELECT `transaksi_gaji`.`id_transaksi_gaji`
+                                FROM `transaksi_gaji`
+                                WHERE `transaksi_gaji`.`user_id` = '".$id_user."'
+                                AND MONTH(`transaksi_gaji`.`tgl_gajian`) = '".$bulan_gaji."'
+                                AND YEAR(`transaksi_gaji`.`tgl_gajian`) = '".$tahun_gaji."'"
+                                );
+        return $data->row_array();
+    }
+
+    
 }

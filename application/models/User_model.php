@@ -68,4 +68,21 @@ class User_model extends CI_Model {
         $data = $this->db->query("SELECT `users`.`id_user`, `users`.`name`, `users`.`nip` FROM `users`");
         return $data->result_array();
     }
+
+    public function getDataUsersNameNipById($nip)
+    {
+        $data = $this->db->query("SELECT `users`.`id_user`, `users`.`name`, `users`.`nip` FROM `users` WHERE `users`.`nip` = '".$nip."'");
+        return $data->row_array();
+    }
+
+    public function getDataUserByIdTransaksi($id_transaksi_gaji)
+    {
+        $data = $this->db->query("SELECT `transaksi_gaji`.`id_transaksi_gaji`, `transaksi_gaji`.`tgl_gajian`, `users`.`id_user`, `users`.`name`, `users`.`nip`, `users`.`no_rek` 
+                                FROM `transaksi_gaji`
+                                JOIN `users`
+                                ON `transaksi_gaji`.`user_id` = `users`.`id_user`
+                                WHERE `transaksi_gaji`.`id_transaksi_gaji` = '".$id_transaksi_gaji."'
+                                ");
+        return $data->row_array();
+    }
 }

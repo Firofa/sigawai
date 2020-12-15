@@ -23,7 +23,7 @@ class Unit extends CI_Controller {
         $this->form_validation->set_rules("sekretaris","Sekretaris","required|trim");
         $this->form_validation->set_rules("pj_barang_persediaan","PJ Barang Persediaan","required|trim");
         if($this->form_validation->run() == false) {
-            $data['title'] = "Admin Page | SIPERMA";
+            $data['title'] = "Admin Page | SIGAWAI";
             //Ambil data user
             $this->load->model('User_model','user');
             $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -71,7 +71,7 @@ class Unit extends CI_Controller {
     }
 
     public function editDataUnit($id_work_unit) {
-		$data['title'] = "Admin Page | SIPERMA";
+		$data['title'] = "Admin Page | SIGAWAI";
 		//Ambil data user login
 		$this->load->model('User_model','user');
 		$data['user'] = $this->user->GetUser($this->session->userdata('nip'));

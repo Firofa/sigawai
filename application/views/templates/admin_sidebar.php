@@ -25,16 +25,16 @@
           </a>
         <?php if($user['level_access_id'] == "1") : ?>
           <ul class="treeview-menu">
-            <li><a href="<?= base_url('admin/pengaturanHakAkses');?>"><i class="fa fa-circle-o"></i>Pengaturan Hak Akses</a></li>
-            <li><a href="<?= base_url('unit');?>"><i class="fa fa-circle-o"></i>Pengaturan Satuan Kerja</a></li>
-            <li><a href="<?= base_url('admin/pengaturanPegawai'); ?>"><i class="fa fa-circle-o"></i>Input Pegawai</a></li>
-            <li><a href="<?= base_url('ruangan/pengaturanRuangan'); ?>"><i class="fa fa-circle-o"></i>Input Ruangan</a></li>
-            <li><a href="<?= base_url('perkiraan'); ?>"><i class="fa fa-circle-o"></i>Pengaturan Perkiraan</a></li>
+            <li><a href="<?= base_url('Admin/pengaturanHakAkses');?>"><i class="fa fa-circle-o"></i>Pengaturan Hak Akses</a></li>
+            <li><a href="<?= base_url('Unit');?>"><i class="fa fa-circle-o"></i>Pengaturan Satuan Kerja</a></li>
+            <li><a href="<?= base_url('Admin/pengaturanPegawai'); ?>"><i class="fa fa-circle-o"></i>Input Pegawai</a></li>
+            <li><a href="<?= base_url('Ruangan/pengaturanRuangan'); ?>"><i class="fa fa-circle-o"></i>Input Ruangan</a></li>
+            <li><a href="<?= base_url('Perkiraan'); ?>"><i class="fa fa-circle-o"></i>Pengaturan Perkiraan</a></li>
           </ul>
           <?php else: ?>
           <ul class="treeview-menu">
-            <li><a href="<?= base_url('admin/pengaturanPegawai'); ?>"><i class="fa fa-circle-o"></i>Input Pegawai</a></li>
-            <li><a href="<?= base_url('ruangan/pengaturanRuangan'); ?>"><i class="fa fa-circle-o"></i>Input Ruangan</a></li>
+            <li><a href="<?= base_url('Admin/pengaturanPegawai'); ?>"><i class="fa fa-circle-o"></i>Input Pegawai</a></li>
+            <li><a href="<?= base_url('Ruangan/pengaturanRuangan'); ?>"><i class="fa fa-circle-o"></i>Input Ruangan</a></li>
           </ul>
           <?php endif; ?>
         </li>
@@ -86,7 +86,10 @@
                 </li>
           </ul>
         </li>
-        <li><a href="<?= base_url('admin/changePassword'); ?>"><i class="fa fa-lock"></i> <span>Change Password</span></a></li>
+        <li><a href="#"><i class="fa fa-folder-o"></i> <span>Komunikasi Data</span></a></li>
+        <li><a href="<?= base_url('Gaji/laporan'); ?>"><i class="fa fa-folder-o"></i> <span>Laporan Rincian</span></a></li>
+        <li><a href="#"><i class="fa fa-book"></i> <span>Petunjuk</span></a></li>
+        <li><a href="<?= base_url('Admin/changePassword'); ?>"><i class="fa fa-lock"></i> <span>Change Password</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
