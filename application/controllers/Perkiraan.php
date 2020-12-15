@@ -7,7 +7,7 @@ class Perkiraan extends CI_Controller {
 		parent::__construct();
 		//Cek jika bukan admin
 		$role = $this->session->userdata('level_access_id');
-		if($role !== "1" && $role !== "2") {
+		if($role !== "1") {
 			redirect();
 		} 
 		$this->load->library('form_validation');

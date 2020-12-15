@@ -304,7 +304,7 @@ class Gaji extends CI_Controller {
 
     
 	public function laporan() {
-		$data['title'] = "Admin Page | SIGAWAI";
+		    $data['title'] = "Laporan Rincian Gaji | SIGAWAI";
             //Ambil data user
             $this->load->model('User_model','user');
             $data['user'] = $this->user->GetUser($this->session->userdata('nip'));
@@ -315,9 +315,6 @@ class Gaji extends CI_Controller {
             //Ambil Data Gaji Seluruh Pegawai
 		    $this->load->model('gaji_model','gaji');
             $data['gaji'] = $this->gaji->GetDataTransaksiGaji();
-            $this->load->view('templates/admin_header',$data);
-			$this->load->view('templates/admin_topbar',$data);
-			$this->load->view('templates/admin_sidebar',$data);
 			$this->load->view('admin/laporan/rincianLaporan_view',$data);
 	}
 

@@ -186,6 +186,14 @@ class Admin extends CI_Controller {
 	}
 
 	public function pengaturanHakAkses() {
+		//Cek jika bukan super admin
+		$role = $this->session->userdata('level_access_id');
+		if($role !== "1") {
+			redirect();
+		} 
+		
+		$this->load->library('form_validation');
+
 		$data['title'] = "Admin Page | Sigawai";
 		//Ambil data user
 		$this->load->model('User_model','user');
@@ -201,6 +209,10 @@ class Admin extends CI_Controller {
 	}
 
 	public function editHakAkses($id_user) {
+		$role = $this->session->userdata('level_access_id');
+		if($role !== "1") {
+			redirect();
+		} 
 		$data['title'] = "Admin Page | Sigawai";
 		//Ambil data user login
 		$this->load->model('User_model','user');
@@ -219,6 +231,10 @@ class Admin extends CI_Controller {
 	}
 
 	public function doEditHakAkses() {
+		$role = $this->session->userdata('level_access_id');
+		if($role !== "1") {
+			redirect();
+		} 
 		$id_user = $_POST['id_user'];
 		$level_access_id = $_POST['level_access_id'];
 		$is_active = $_POST['is_active'];
